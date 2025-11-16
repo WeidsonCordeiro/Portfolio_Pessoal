@@ -6,6 +6,14 @@ import React from 'react';
 
 const projects = [
   {
+    title: 'Neon Snake Game',
+    imgUrl: '/imagen/snake.png', 
+    description: 'Jogo clássico da cobrinha (Snake) com visual "Neon", power-ups e placar, feito em HTML, CSS e JavaScript puro.',
+    githubUrl: 'https://github.com/Anderson-full/neonsnake', 
+    deployUrl: 'https://anderson-full.github.io/NeonSnake/',
+    technologies: ['JavaScript', 'HTML', 'CSS', 'Canvas']
+  },
+  {
     title: 'Portfólio Galáxia (Este Site)',
     imgUrl: '/imagen/portfolio-galaxia.png', 
     description: 'Meu portfólio interativo com tema espacial, construído com React, Three.js (fundo) e Framer Motion.',
