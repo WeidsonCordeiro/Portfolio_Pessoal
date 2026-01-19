@@ -19,7 +19,10 @@ function App() {
   };
 
   return (
-    <div className="relative z-0 min-h-screen">
+    <div
+      className="position-relative"
+      style={{ zIndex: 0, minHeight: "100vh" }}
+    >
       {!isContentReady && <CosmicLoader onLoadComplete={handleLoadComplete} />}
 
       {isContentReady && (

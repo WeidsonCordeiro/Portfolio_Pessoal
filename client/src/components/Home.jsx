@@ -5,11 +5,11 @@ const Home = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center text-center relative px-4 pt-32"
+      className="min-vh-100 d-flex align-items-center justify-content-center text-center px-3 pt-5"
     >
       <div>
         <motion.h1
-          className="text-5xl md:text-6xl lg:text-7xl font-bold font-orbitron text-white leading-tight"
+          className="display-3 display-md-2 display-lg-1 fw-bold font-orbitron text-white"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
@@ -21,7 +21,7 @@ const Home = () => {
           />
 
           <br />
-          <span className="text-3xl md:text-4xl lg:text-5xl text-space-light font-exo">
+          <span className="h4 text-space-light font-exo">
             Weidson Cordeiro, Desenvolvedor Full Stack
           </span>
         </motion.h1>
