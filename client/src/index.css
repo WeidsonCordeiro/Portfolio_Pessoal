@@ -4,49 +4,175 @@
   --bs-body-font-family: "Roboto", sans-serif;
   --bs-body-color: #e0e0ff;
   --bs-body-bg: #0a0a18;
-  --space-dark: #0a0a18;
-  --space-blue: #1e1e3f;
-  --space-purple: #6b21a8;
-  --space-light: #e0e0ff;
+  --bg-space-blue: #1e1e3f;
+  --bg-space-purple: #6b21a8;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background-color: #0a0a18;
-  color: #e0e0ff;
-  font-family: "Roboto", sans-serif;
-  overflow-x: hidden;
+* {
   margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Custom utility classes */
-.font-orbitron {
-  font-family: "Orbitron", sans-serif;
+.box-shadow-custom:hover {
+  box-shadow: rgba(107, 33, 168, 0.7) 0 0 30px;
 }
 
-.font-exo {
-  font-family: "Exo 2", sans-serif;
+.navbar-custom {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  z-index: 50;
 }
 
-.text-space-light {
-  color: #e0e0ff;
+.navbar-custom-logo {
+  white-space: nowrap;
+  text-decoration: none;
 }
 
-.bg-space-dark {
-  background-color: #0a0a18;
+.navbar-toggler {
+  background-color: var(--bs-body-color);
+  font-size: 16px;
 }
 
-.bg-space-blue {
-  background-color: #1e1e3f;
+.navbar-toggler:focus {
+  box-shadow: none !important;
 }
 
-.bg-space-purple {
-  background-color: #6b21a8;
+.navbar-collapse {
+  text-align: center !important;
+}
+
+.NavLink-custom {
+  white-space: nowrap;
+}
+
+.img-about-custom {
+  border-color: var(--bg-space-purple);
+  max-width: 350px;
+}
+
+.transition-custom {
+  transition: 1s;
+}
+
+.skill-card {
+  background-color: rgba(30, 30, 63, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 0.5rem;
+  transition: 1s;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.text-shimmer {
+  background-image: linear-gradient(
+    to right,
+    var(--bg-space-purple),
+    #ec4899,
+    #60a5fa
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
+
+.input-fields-custom {
+  position: relative;
+}
+
+.input-fields-custom .form-control {
+  background-color: rgba(30, 30, 63, 0.3);
+  border: none !important;
+  outline: none !important;
+  color: var(--bs-body-color);
+}
+
+.input-fields-custom .form-label {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: var(--bs-body-color);
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.input-fields-custom .form-label[for="message"] {
+  position: absolute;
+  top: 20%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: var(--bs-body-color);
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.input-fields-custom .form-control:focus {
+  outline: var(--bg-space-purple) 3px solid !important;
+  box-shadow: 0 0 5px var(--bg-space-purple) !important;
+  background-color: rgba(30, 30, 63, 0.3) !important;
+}
+
+.input-fields-custom .form-control.filled + .form-label,
+.input-fields-custom .form-control:focus + .form-label {
+  top: 0;
+  left: 8px;
+  padding: 0 2px;
+  color: var(--bg-space-purple);
+  background: #060b23;
+  font-size: 0.85rem;
+}
+
+.btn-contact-custom {
+  background-color: var(--bg-space-purple) !important;
+  color: var(--bs-body-color);
+  border: none;
+}
+
+/* ================================
+   AUTOCOMPLETE UNIVERSAL DARK MODE
+   Compatível com Chrome, Edge, Opera, Firefox e Safari
+   ================================ */
+
+/* CHROME / EDGE / OPERA (WebKit / Blink) */
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  box-shadow: 0 0 0 1000px rgba(30, 30, 63, 0.3) inset !important;
+  -webkit-text-fill-color: var(--bs-body-color) !important;
+  border: none !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Em foco (para evitar flash branco ao clicar) */
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill:focus {
+  box-shadow: 0 0 0 1000px rgba(30, 30, 63, 0.3) inset !important;
+  -webkit-text-fill-color: var(--bs-body-color) !important;
+}
+
+/* FIREFOX */
+input:-moz-autofill,
+textarea:-moz-autofill,
+select:-moz-autofill {
+  box-shadow: 0 0 0 1000px rgba(30, 30, 63, 0.3) inset !important;
+  -moz-text-fill-color: var(--bs-body-color) !important;
+}
+
+/* SAFARI (iOS e macOS) */
+input:-internal-autofill-selected {
+  background-color: rgba(30, 30, 63, 0.3) !important;
+  color: var(--bs-body-color) !important;
+  box-shadow: 0 0 0 1000px rgba(30, 30, 63, 0.3) inset !important;
 }
 
 /* Animações */
@@ -60,32 +186,4 @@ body {
   100% {
     background-position: 0% 50%;
   }
-}
-
-@keyframes glow {
-  0%,
-  100% {
-    text-shadow: 0 0 10px rgba(224, 224, 255, 0.5);
-  }
-  50% {
-    text-shadow: 0 0 20px rgba(107, 33, 168, 0.8);
-  }
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-.glow-text {
-  animation: glow 3s ease-in-out infinite;
-}
-
-.float {
-  animation: float 3s ease-in-out infinite;
 }

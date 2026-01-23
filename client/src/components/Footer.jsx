@@ -1,3 +1,4 @@
+//Animation
 import { motion } from "framer-motion";
 
 const Footer = () => {
@@ -10,7 +11,7 @@ const Footer = () => {
       }}
     >
       <div
-        className="container-fluid text-center text-space-light"
+        className="container-fluid text-center"
         style={{
           fontSize: "0.9rem",
           paddingTop: "1rem",
@@ -18,8 +19,8 @@ const Footer = () => {
         }}
       >
         <motion.p
-          className="font-orbitron mb-3"
-          style={{ fontSize: "0.75rem" }}
+          className="mb-3"
+          style={{ fontSize: "0.85rem" }}
           initial={{ opacity: 0.5 }}
           animate={{ opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 2, repeat: Infinity }}

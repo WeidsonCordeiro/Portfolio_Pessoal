@@ -3,20 +3,17 @@
   "version": "1.0.0",
   "description": "Server",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
+    "test": "curl -X POST http://localhost:5000/api/setEmail -H \"Content-Type: application/json\" -d '{\"name\":\"Teste\",\"email\":\"teste@teste.com\",\"message\":\"Teste\"}'",
+    "dev": "nodemon --watch . --ext js,json --ignore node_modules index.js",
     "server": "node index.js"
   },
   "dependencies": {
-    "axios": "^1.6.2",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "nodemailer": "^7.0.10"
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.1.11"
   }
 }

@@ -1,6 +1,11 @@
+//Hooks
 import { useState } from "react";
+
+//Animations
 import { motion, AnimatePresence } from "framer-motion";
 import { InView } from "react-intersection-observer";
+
+//Icons
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
 const projects = [
@@ -158,10 +163,9 @@ const Projects = () => {
         {({ inView, ref }) => (
           <div ref={ref} className="w-100">
             <motion.h2
-              className="display-5 font-orbitron fw-bold mb-5 text-center"
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: 1 }}
+              className="display-5 font-orbitron fw-bold mb-5 text-center transition-custom"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
             >
               Projetos
             </motion.h2>
@@ -170,12 +174,9 @@ const Projects = () => {
               {projects.map((project, index) => (
                 <motion.div
                   key={project.title}
-                  className="col"
+                  className="col transition-custom"
                   initial={{ opacity: 0, y: 50 }}
-                  animate={
-                    inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
-                  }
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                 >
                   <ProjectCard project={project} />
                 </motion.div>

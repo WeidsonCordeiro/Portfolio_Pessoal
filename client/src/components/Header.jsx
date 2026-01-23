@@ -1,14 +1,11 @@
-import { motion } from "framer-motion";
+//Hooks
 import React from "react";
 
+//Animation
+import { motion } from "framer-motion";
+
 const NavLink = ({ href, children }) => (
-  <a
-    href={href}
-    className="nav-link fw-semibold font-exo text-space-light"
-    style={{
-      whiteSpace: "nowrap",
-    }}
-  >
+  <a href={href} className="nav-link fw-semibold text-white box-shadow-custom">
     {children}
   </a>
 );
@@ -19,27 +16,19 @@ const Header = () => {
     { name: "Quem Sou Eu", href: "#about" },
     { name: "Habilidades", href: "#skills" },
     { name: "Projetos", href: "#projects" },
-    { name: "Currículo", href: "#resume" },
     { name: "Contato", href: "#contact" },
   ];
 
   return (
     <motion.nav
-      className="navbar navbar-expand-md fixed-top"
-      style={{
-        backgroundColor: "rgba(0,0,0,0.5)",
-        backdropFilter: "blur(10px)",
-        zIndex: 50,
-      }}
+      className="navbar navbar-expand-md fixed-top navbar-custom"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
     >
       <div className="container-fluid">
         <a
           href="#home"
-          className="navbar-brand fw-bold font-orbitron text-white"
-          style={{ whiteSpace: "nowrap", textDecoration: "none" }}
+          className="navbar-brand fw-bold text-white box-shadow-custom p-2 navbar-custom-logo"
         >
           Weidson Cordeiro
         </a>

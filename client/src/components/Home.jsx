@@ -1,5 +1,5 @@
+//Animations
 import { motion } from "framer-motion";
-import TextScramble from "./TextScramble";
 
 const Home = () => {
   return (
@@ -9,21 +9,15 @@ const Home = () => {
     >
       <div>
         <motion.h1
-          className="display-3 display-md-2 display-lg-1 fw-bold font-orbitron text-white"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
+          className="display-3 display-md-2 display-lg-1 fw-bold text-white transition-custom"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
         >
-          <TextScramble
-            text="Weidson Cordeiro, Desenvolvedor Full Stack"
-            startDelay={1000}
-            scrambleSpeed={40}
-          />
-
-          <br />
-          <span className="h4 text-space-light font-exo">
-            Weidson Cordeiro, Desenvolvedor Full Stack
+          <span className="text-shimmer">
+            Weidson Cordeiro, Transformando Ideias em Realidade
           </span>
+          <br />
+          <span className="fs-4">Full Stack Developer | React & Node.js</span>
         </motion.h1>
       </div>
     </section>

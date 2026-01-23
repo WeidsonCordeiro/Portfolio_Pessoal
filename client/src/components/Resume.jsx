@@ -1,41 +1,69 @@
+//Components and Libraries
 import { motion } from "framer-motion";
 import { InView } from "react-intersection-observer";
+
+//Icons
 import { FaDownload } from "react-icons/fa";
 import { IoRocketSharp } from "react-icons/io5";
 
 const educationItems = [
   {
-    year: "2025 - 2027 (Previsto)",
-    title: "Analise e Desenvolvimento de Sistemas",
-    description: "Faculdade Unichristus",
+    year: "2025",
+    title: "Node.js & MongoDB: Developing Back-end Database Applications",
+    description: "Coursera",
   },
   {
-    year: "Cursando",
-    title: "Curso Avançado de Front End",
-    description: "Origamid",
+    year: "2025",
+    title: "React do Zero a Maestria (c/ hooks, router, API, Projetos)",
+    description: "Udemy",
   },
   {
-    year: "2017 - 2019",
-    title: "Técnico em Informática",
-    description: "EEEP Rita Matos Luna",
+    year: "2025",
+    title: "Curso de JavaScript Completo",
+    description: "Udemy",
   },
   {
-    year: "Concluído",
-    title: "Cursos Complementares (Bradesco)",
-    description: "Soluções de IA no GitHub, Modelagem de Dados e LGPD",
+    year: "2024",
+    title: "React Basics",
+    description: "Coursera",
+  },
+  {
+    year: "2022",
+    title: "Curso Web Frontend Fundamentos HTML CSS JS",
+    description: "Udemy",
+  },
+  {
+    year: "2007 - 2010",
+    title: "Universidade Salgado de Oliveira - UNIVERSO",
+    description: "Bacharel em Sistemas de Informação",
   },
 ];
 
 const experienceItems = [
   {
-    year: "Atual",
-    title: "Desenvolvedor Freelancer",
-    description: "Desenvolvimento de projetos web Full Stack e Landing Pages.",
+    year: "09/2022 - Atual",
+    title: "Consultor Senior",
+    description: "Capgemini - Lisboa, Portugal",
   },
   {
-    year: "Duração: 6 meses",
-    title: "Estagio/Suporte técnico em informática",
-    description: "Secretaria da Educação (SEDUC)",
+    year: "09/2021 - 08/2022",
+    title: "Consultor Senior",
+    description: "PrimeIT - Lisboa, Portugal",
+  },
+  {
+    year: "04/2013 - 01/2020",
+    title: "Analista de Sistemas Implantação",
+    description: "Lg Lugar de Gente - Goias, Brasil",
+  },
+  {
+    year: "05/2011 - 03/2013",
+    title: "Arquiteto de Testes",
+    description: "Lg Lugar de Gente - Goias, Brasil",
+  },
+  {
+    year: "11/2009 - 04/2011",
+    title: "Analista de Testes",
+    description: "Lg Lugar de Gente - Goias, Brasil",
   },
 ];
 
@@ -43,7 +71,7 @@ const TimelineColumn = ({ items, inView, textColor, bgColor }) => {
   return (
     <div className="position-relative">
       <div
-        className="position-absolute start-50 top-0 h-100"
+        className="position-absolute start-5 top-0 h-100"
         style={{
           width: "2px",
           backgroundColor: "#1e1e3f",
@@ -60,12 +88,12 @@ const TimelineColumn = ({ items, inView, textColor, bgColor }) => {
           transition={{ duration: 0.6, delay: 0.5 + index * 0.2 }}
         >
           <div
-            className={`position-absolute start-50 top-0 rounded-circle d-flex align-items-center justify-content-center text-white`}
+            className={`position-absolute start-5 top-0 rounded-circle d-flex align-items-center justify-content-center text-white`}
             style={{
               width: "40px",
               height: "40px",
               backgroundColor: bgColor,
-              transform: "translateX(-50%)",
+              transform: "translateX(-100%)",
               zIndex: 10,
               boxShadow: "0px 0px 10px rgba(0,0,0,0.5)",
             }}
@@ -85,7 +113,8 @@ const TimelineColumn = ({ items, inView, textColor, bgColor }) => {
 };
 
 const Resume = () => {
-  const pdfFileName = "Curriculo para TI (1).pdf";
+  const pdfFileNameIngles = "CV-EN-Weidson Cordeiro.pdf";
+  const pdfFileNamePortugues = "CV-BR-Weidson Cordeiro.pdf";
 
   return (
     <section
@@ -96,7 +125,7 @@ const Resume = () => {
         {({ inView, ref }) => (
           <div ref={ref} className="w-100" style={{ maxWidth: "1200px" }}>
             <motion.h2
-              className="display-5 font-orbitron fw-bold mb-5 text-center"
+              className="display-5 fw-bold mb-5 text-center"
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 1 }}
@@ -111,7 +140,7 @@ const Resume = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <a
-                href={`/${pdfFileName}`}
+                href={`/${pdfFileNamePortugues}`}
                 download
                 className="btn btn-lg fw-bold font-orbitron d-inline-flex align-items-center gap-2"
                 style={{
@@ -122,14 +151,28 @@ const Resume = () => {
                 }}
               >
                 <FaDownload />
-                Baixar Currículo (PDF)
+                Baixar Currículo-BR (PDF)
+              </a>
+              <a
+                href={`/${pdfFileNameIngles}`}
+                download
+                className="btn btn-lg fw-bold font-orbitron d-inline-flex align-items-center gap-2"
+                style={{
+                  backgroundColor: "#6b21a8",
+                  color: "#fff",
+                  border: "none",
+                  boxShadow: "rgba(107, 33, 168, 0.5) 0px 0px 30px",
+                }}
+              >
+                <FaDownload />
+                Baixar Currículo-EN (PDF)
               </a>
             </motion.div>
 
-            <div className="row">
+            {/* <div className="row">
               <div className="col-12 col-md-6">
                 <h3
-                  className="h4 font-orbitron fw-bold mb-4 text-center"
+                  className="h4 fw-bold mb-4 text-center"
                   style={{ color: "#6b21a8" }}
                 >
                   Formação & Cursos
@@ -144,7 +187,7 @@ const Resume = () => {
               </div>
 
               <div className="col-12 col-md-6">
-                <h3 className="h4 font-orbitron fw-bold mb-4 text-center text-success">
+                <h3 className="h4 fw-bold mb-4 text-center text-success">
                   Experiências
                 </h3>
 
@@ -155,7 +198,7 @@ const Resume = () => {
                   bgColor="#28a745"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         )}
       </InView>

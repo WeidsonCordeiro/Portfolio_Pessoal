@@ -1,8 +1,74 @@
+//Hooks
+import { useState } from "react";
+
+//Animations
 import { motion } from "framer-motion";
 import { InView } from "react-intersection-observer";
+
+//Icons
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { HiMiniDocumentArrowDown } from "react-icons/hi2";
+
+//Utils
+import { requestConfig } from "../utils/config";
 
 const Contact = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
+  const pdfFileNamePortugues = "CV-BR-Weidson Cordeiro.pdf";
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    setIsLoading(true);
+    setError(null);
+
+    // Validação básica no frontend
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      setError(["Todos os campos são obrigatórios"]);
+      setIsLoading(false);
+      return;
+    }
+
+    // Validação de email simples
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError(["Por favor, insira um email válido"]);
+      setIsLoading(false);
+      return;
+    }
+
+    const formData = {
+      name: name.trim(),
+      email: email.trim(),
+      message: message.trim(),
+    };
+
+    const config = requestConfig("POST", formData, null);
+    try {
+      const res = await fetch(`/api/setEmail`, config);
+      const result = await res.json();
+
+      if (result.errors) {
+        setError(result.errors);
+        return;
+      }
+
+      // Limpa campos
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch (error) {
+      console.error("Erro ao enviar E-mail:", error);
+      setError("Erro ao enviar E-mail. Tente novamente!");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <section
       id="contact"
@@ -12,120 +78,101 @@ const Contact = () => {
         {({ inView, ref }) => (
           <div ref={ref} className="w-100" style={{ maxWidth: "600px" }}>
             <motion.h2
-              className="display-5 font-orbitron fw-bold mb-5 text-center"
+              className="display-5 fw-bold mb-5 text-center transition-custom"
               initial={{ opacity: 0, y: 50 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 1 }}
+              whileInView={{ opacity: 1, y: 0 }}
             >
               Contato
             </motion.h2>
 
             <motion.form
-              action="https://formspree.io/f/mvgveyeq"
-              method="POST"
-              className="d-flex flex-column gap-4"
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 1, delay: 0.3 }}
+              onSubmit={handleSubmit}
+              className="d-flex flex-column gap-4 transition-custom"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
             >
-              <div className="mb-3">
+              <div className="mb-3 input-fields-custom">
                 <input
                   type="text"
                   name="name"
                   id="name"
-                  required
-                  className="form-control"
-                  placeholder="Nome"
-                  style={{
-                    backgroundColor: "rgba(30, 30, 63, 0.3)",
-                    borderColor: "#1e1e3f",
-                    color: "#fff",
-                  }}
+                  className={`form-control p-3 ${name ? "filled" : ""}`}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
+                <label htmlFor="name" className="form-label">
+                  Nome
+                </label>
               </div>
 
-              <div className="mb-3">
+              <div className="mb-3 input-fields-custom">
                 <input
                   type="email"
                   name="_replyto"
                   id="email"
-                  required
-                  className="form-control"
-                  placeholder="E-mail"
-                  style={{
-                    backgroundColor: "rgba(30, 30, 63, 0.3)",
-                    borderColor: "#1e1e3f",
-                    color: "#fff",
-                  }}
+                  className={`form-control p-3 ${email ? "filled" : ""}`}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
+                <label htmlFor="email" className="form-label">
+                  E-mail
+                </label>
               </div>
 
-              <div className="mb-3">
+              <div className="mb-3 input-fields-custom">
                 <textarea
                   name="message"
                   id="message"
                   rows={5}
-                  required
-                  className="form-control"
-                  placeholder="Mensagem"
-                  style={{
-                    backgroundColor: "rgba(30, 30, 63, 0.3)",
-                    borderColor: "#1e1e3f",
-                    color: "#fff",
-                  }}
+                  className={`form-control p-3 ${message ? "filled" : ""}`}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                 />
+                <label htmlFor="message" className="form-label">
+                  Mensagem
+                </label>
               </div>
 
               <motion.button
                 type="submit"
-                className="btn fw-bold font-orbitron"
-                style={{
-                  backgroundColor: "#6b21a8",
-                  color: "#fff",
-                  border: "none",
-                }}
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 0 25px rgba(107, 33, 168, 1)",
-                }}
+                className="btn fw-bold box-shadow-custom p-3 btn-contact-custom transition-custom"
               >
                 Enviar Mensagem
               </motion.button>
             </motion.form>
 
             <motion.div
-              className="d-flex justify-content-center gap-4 mt-5"
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 1, delay: 0.6 }}
+              className="d-flex justify-content-center gap-4 mt-5 transition-custom"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
             >
               <a
-                href="https://github.com/Anderson-full"
+                href="https://github.com/WeidsonCordeiro"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <FaGithub
-                  className="text-space-light"
-                  size={32}
-                  style={{ transition: "all 0.3s" }}
-                />
+                <FaGithub className="box-shadow-custom text-white" size={32} />
               </a>
               <a
-                href="https://www.linkedin.com/in/anderson-souza-060489206/"
+                href="https://www.linkedin.com/in/weidson-cordeiro-45390244/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <FaLinkedin
-                  className="text-space-light"
+                  className="box-shadow-custom text-white"
                   size={32}
-                  style={{ transition: "all 0.3s" }}
                 />
               </a>
-              <a href="mailto:andersonfulldev@gmail.com">
+              <a href="mailto:weidson.ac@gmail.com">
                 <FaEnvelope
-                  className="text-space-light"
+                  className="box-shadow-custom text-white"
                   size={32}
-                  style={{ transition: "all 0.3s" }}
+                />
+              </a>
+              <a href={`/${pdfFileNamePortugues}`} download>
+                <HiMiniDocumentArrowDown
+                  className="box-shadow-custom text-white"
+                  size={32}
                 />
               </a>
             </motion.div>
