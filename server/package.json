@@ -4,14 +4,14 @@
   "description": "Server",
   "main": "index.js",
   "scripts": {
-    "test": "curl -X POST http://localhost:5000/api/setEmail -H \"Content-Type: application/json\" -d '{\"name\":\"Teste\",\"email\":\"teste@teste.com\",\"message\":\"Teste\"}'",
-    "dev": "nodemon --watch . --ext js,json --ignore node_modules index.js",
-    "server": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "node-mailjet": "^6.0.8"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"

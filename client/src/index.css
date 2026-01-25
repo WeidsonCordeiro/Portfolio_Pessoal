@@ -175,6 +175,21 @@ input:-internal-autofill-selected {
   box-shadow: 0 0 0 1000px rgba(30, 30, 63, 0.3) inset !important;
 }
 
+.errormsg {
+  font-size: 12px;
+  line-height: 1.36;
+  letter-spacing: 0.1px;
+  text-align: left;
+  color: #d0011b;
+  padding: 0;
+  margin: 0;
+}
+
+.errormsg p {
+  padding: 0;
+  margin: 0;
+}
+
 /* Animações */
 @keyframes shimmer {
   0% {

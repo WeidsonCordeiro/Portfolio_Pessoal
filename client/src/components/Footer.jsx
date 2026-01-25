@@ -30,7 +30,7 @@ const Footer = () => {
         </motion.p>
 
         <p style={{ color: "#6b21a8" }}>
-          ©️ 2026 – Criado por Weidson Alves Cordeiro | Todos os direitos
+          ©️ 2026 – Criado por Weidson Cordeiro | Todos os direitos
           reservados.
         </p>
       </div>

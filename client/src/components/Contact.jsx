@@ -26,21 +26,6 @@ const Contact = () => {
     setIsLoading(true);
     setError(null);
 
-    // Validação básica no frontend
-    if (!name.trim() || !email.trim() || !message.trim()) {
-      setError(["Todos os campos são obrigatórios"]);
-      setIsLoading(false);
-      return;
-    }
-
-    // Validação de email simples
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError(["Por favor, insira um email válido"]);
-      setIsLoading(false);
-      return;
-    }
-
     const formData = {
       name: name.trim(),
       email: email.trim(),
@@ -49,10 +34,11 @@ const Contact = () => {
 
     const config = requestConfig("POST", formData, null);
     try {
-      const res = await fetch(`/api/setEmail`, config);
+      const res = await fetch(`/api/sendEmailContacto`, config);
       const result = await res.json();
 
       if (result.errors) {
+        console.log("Erros", error);
         setError(result.errors);
         return;
       }
@@ -86,6 +72,7 @@ const Contact = () => {
             </motion.h2>
 
             <motion.form
+              noValidate
               onSubmit={handleSubmit}
               className="d-flex flex-column gap-4 transition-custom"
               initial={{ opacity: 0, y: 50 }}
@@ -131,6 +118,14 @@ const Contact = () => {
                 <label htmlFor="message" className="form-label">
                   Mensagem
                 </label>
+                {error && (
+                  <div
+                    className="errormsg mt-3"
+                    style={{ display: error ? "block" : "none" }}
+                  >
+                    <p>{error}</p>
+                  </div>
+                )}
               </div>
 
               <motion.button

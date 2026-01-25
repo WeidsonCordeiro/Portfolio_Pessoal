@@ -1,112 +1,161 @@
 const express = require("express");
 const cors = require("cors");
+const Mailjet = require("node-mailjet");
+const { validatePayload } = require("./middlewares/handleValidation");
 require("dotenv").config();
-
 const port = process.env.PORT || 5000;
-const app = express();
-// Middleware
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
+
+const mailjet = Mailjet.apiConnect(
+  process.env.MAILJET_API_KEY,
+  process.env.MAILJET_SECRET_KEY,
 );
+
+const app = express();
+app.use(cors());
 app.use(express.json());
 
-app.post("/api/setEmail", async (req, res) => {
-  try {
-    const { name, email, message } = req.body;
+app.post("/api/sendEmailContacto", async (req, res) => {
+  const { name, email, message } = req.body;
 
-    // Validação
-    if (!name || !email || !message) {
-      return res.status(400).json({
-        errors: ["Nome, e-mail e mensagem são obrigatórios"],
-      });
-    }
+  const validationResult = validatePayload({ name, email, message });
 
-    // Validação de e-mail
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        errors: ["E-mail inválido"],
-      });
-    }
-
-    const url = "https://api.emailjs.com/api/v1.0/email/send";
-
-    let templateParams = {
-      name,
-      email,
-      message,
-    };
-
-    // Verifique se as variáveis de ambiente estão definidas
-    if (
-      !process.env.EMAILJS_API_SERVICE_KEY ||
-      !process.env.EMAILJS_API_TEMPLATE_PORTIFOLIO_KEY ||
-      !process.env.EMAILJS_API_PUBLIC_KEY
-    ) {
-      console.error("Variáveis de ambiente do EmailJS não configuradas");
-      return res.status(500).json({
-        errors: ["Configuração do servidor incompleta"],
-      });
-    }
-
-    const requestBody = {
-      service_id: process.env.EMAILJS_API_SERVICE_KEY,
-      template_id: process.env.EMAILJS_API_TEMPLATE_PORTIFOLIO_KEY,
-      user_id: process.env.EMAILJS_API_PUBLIC_KEY,
-      template_params: templateParams,
-    };
-
-    // Adicione accessToken se tiver a chave privada
-    if (process.env.EMAILJS_API_PRIVATE_KEY) {
-      requestBody.accessToken = process.env.EMAILJS_API_PRIVATE_KEY;
-    }
-
-    const response = await fetch(url, requestBody);
-
-    const responseText = await response.text();
-    console.log(response);
-    console.log(responseText);
-    console.log("Resposta do EmailJS:", response.status, responseText);
-
-    if (!response.ok) {
-      throw new Error(`EmailJS retornou ${response.status}: ${responseText}`);
-    }
-
-    // Tente parsear como JSON se possível
-    let responseData;
-    try {
-      responseData = JSON.parse(responseText);
-    } catch {
-      responseData = responseText;
-    }
-
-    res.status(200).json({
-      success: "Email enviado com sucesso!",
-      data: responseData,
-    });
-  } catch (err) {
-    console.error("Erro detalhado no /api/setEmail:", err);
-    res.status(500).json({
-      errors: [err.message],
-      details: "Verifique as configurações do EmailJS",
+  if (validationResult) {
+    return res.status(400).json({
+      success: false,
+      errors: [validationResult],
     });
   }
-});
 
-app.get("/api/test", (req, res) => {
-  res.json({
-    message: "API funcionando",
-    env_vars: {
-      has_service_key: !!process.env.EMAILJS_API_SERVICE_KEY,
-      has_template_key: !!process.env.EMAILJS_API_TEMPLATE_PORTIFOLIO_KEY,
-      has_public_key: !!process.env.EMAILJS_API_PUBLIC_KEY,
-      port: process.env.PORT,
-    },
-    node_version: process.version,
-  });
+  try {
+    // Email para você (recebendo o contato)
+    const requestToYou = await mailjet
+      .post("send", { version: "v3.1" })
+      .request({
+        Messages: [
+          {
+            From: {
+              Email: email,
+              Name: "Portifólio - Formulário de Contato",
+            },
+            To: [
+              {
+                Email: process.env.MAILJET_FROM_EMAIL, // Você recebe o email
+                Name: "Weidson Cordeiro",
+              },
+            ],
+            Subject: `Novo contato de ${name}`,
+            HTMLPart: `
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px;">
+              <h2 style="color: #2c3e50;">📬 Novo Contato Recebido</h2>
+              
+              <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <p><strong>Nome:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Data:</strong> ${new Date().toLocaleString("pt-BR")}</p>
+              </div>
+              
+              <div style="background: #fff; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
+                <h3 style="color: #34495e; margin-top: 0;">Mensagem:</h3>
+                <p style="white-space: pre-wrap;">${message}</p>
+              </div>
+              
+              <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                <p><small>Para responder, utilize: <a href="mailto:${email}">${email}</a></small></p>
+              </div>
+            </div>
+          `,
+            TextPart: `
+            NOVO CONTATO
+            Nome: ${name}
+            Email: ${email}
+            Data: ${new Date().toLocaleString("pt-BR")}
+            
+            MENSAGEM:
+            ${message}
+            
+            Para responder: ${email}
+          `,
+          },
+        ],
+      });
+
+    // Email de confirmação para O VISITANTE (opcional, mas bom)
+    const requestToVisitor = await mailjet
+      .post("send", { version: "v3.1" })
+      .request({
+        Messages: [
+          {
+            From: {
+              Email: process.env.MAILJET_FROM_EMAIL,
+              Name: "Weidson Cordeiro",
+            },
+            To: [
+              {
+                Email: email,
+                Name: name,
+              },
+            ],
+            Subject: "Recebi sua mensagem!",
+            HTMLPart: `
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px;">
+              <h2 style="color: #2c3e50;">✅ Mensagem Recebida</h2>
+              
+              <p>Olá <strong>${name}</strong>,</p>
+              
+              <p>Recebi sua mensagem através do formulário de contato do meu Portifólio.</p>
+              
+              <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                <p><em>"${message.substring(0, 100)}${message.length > 100 ? "..." : ""}"</em></p>
+              </div>
+              
+              <p>Vou analisar sua mensagem e responderei o mais breve possível.</p>
+              
+              <p>Atenciosamente,<br>
+              <strong>Weidson Cordeiro</strong><br>
+              <small>Desenvolvedor FullStack</small></p>
+              
+              <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+              
+              <p style="font-size: 12px; color: #7f8c8d;">
+                Esta é uma confirmação automática. Por favor, não responda este email.<br>
+                Para entrar em contato: <a href="mailto:${process.env.MAILJET_FROM_EMAIL}">${process.env.MAILJET_FROM_EMAIL}</a>
+              </p>
+            </div>
+          `,
+            TextPart: `
+            Olá ${name},
+            
+            Recebi sua mensagem através do formulário de contato do meu Portifólio.
+            
+            Sua mensagem: "${message.substring(0, 100)}"
+            
+            Vou analisar e responderei o mais breve possível.
+            
+            Atenciosamente,
+            Weidson Cordeiro
+            
+            ---
+            Confirmação automática. Não responda este email.
+          `,
+          },
+        ],
+      });
+
+    console.log("Emails de contato enviados com sucesso!");
+
+    res.status(200).json({
+      success: [true],
+      message: ["Emails de contato enviados com sucesso!"],
+    });
+  } catch (errors) {
+    console.error("Erro ao enviar contato:", errors);
+
+    res.status(500).json({
+      success: false,
+      errors: ["Falha ao enviar mensagem"],
+      details: [errors.message],
+    });
+  }
 });
 
 //Middleware de Tratamento de Erros Global:
