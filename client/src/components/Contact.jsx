@@ -12,6 +12,9 @@ import { HiMiniDocumentArrowDown } from "react-icons/hi2";
 //Utils
 import { requestConfig } from "../utils/config";
 
+//Documents
+import CV_Portugues from "../assets/doc/CV_BR_Weidson_Cordeiro.pdf";
+
 const Contact = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -164,7 +167,7 @@ const Contact = () => {
                   size={32}
                 />
               </a>
-              <a href={`/${pdfFileNamePortugues}`} download>
+              <a href={CV_Portugues} download>
                 <HiMiniDocumentArrowDown
                   className="box-shadow-custom text-white"
                   size={32}

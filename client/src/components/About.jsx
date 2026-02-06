@@ -3,9 +3,10 @@ import { TypeAnimation } from "react-type-animation";
 import { motion } from "framer-motion";
 import { InView } from "react-intersection-observer";
 
-const About = () => {
-  const imagePath = "/imagen/Perfil.jpg";
+//Images
+import perfil from "../assets/img/Perfil.jpg";
 
+const About = () => {
   return (
     <section
       id="about"
@@ -29,7 +30,7 @@ const About = () => {
             >
               <div className="col-12 col-md-5 text-center">
                 <motion.img
-                  src={imagePath}
+                  src={perfil}
                   alt="Weidson Cordeiro"
                   className="w-100 rounded-circle border border-4 mx-auto d-block mb-3 img-about-custom"
                 />

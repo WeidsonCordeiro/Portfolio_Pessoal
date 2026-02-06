@@ -190,6 +190,34 @@ input:-internal-autofill-selected {
   margin: 0;
 }
 
+.cards-front-custom {
+  transition: 1s;
+}
+
+.cards-front-custom:hover {
+  scale: 1.05;
+}
+
+.cards-front-custom img {
+  background-color: rgba(0, 0, 0, 0.6);
+  object-fit: contain;
+}
+
+.cards-back-custom {
+  background-color: #404097;
+  overflow-y: auto;
+}
+
+.cards-back-custom span {
+  font-size: 0.75rem;
+}
+
+.cards-back-custom a {
+  font-size: 1.1rem;
+  text-decoration: none;
+  color: var(--bs-body-color);
+}
+
 /* Animações */
 @keyframes shimmer {
   0% {
