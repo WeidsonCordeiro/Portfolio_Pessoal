@@ -17,7 +17,7 @@ import Projeto_MiniBlog from "../assets/img/Projeto_MiniBlog.png";
 
 const projects = [
   {
-    title: "Site Agency Travel Fly",
+    title: "Agency Travel Fly",
     imgUrl: Site_AgencyTravel,
     description:
       "Site institucional de agência de viagens - Aplicação Full Stack com integração de API de email (Mailjet) para gestão de contato e consultoria de passagens aéreas. Desenvolvido para captação de clientes e orçamentos personalizados.",
@@ -27,7 +27,7 @@ const projects = [
     technologies: ["HTML", "CSS", "JavaScript"],
   },
   {
-    title: "Site Rocharte Investimentos Imobiliarios",
+    title: "Rocharte Investimentos Imobiliarios",
     imgUrl: Site_RocharteInvestimentos,
     description:
       "Site Rocharte Investimentos Imobiliarios - Aplicação Full Stack com integração de API de email (Mailjet) para gestão de contatos e newsletter. Desenvolvido para captação de clientes e orçamentos personalizados.",
@@ -37,7 +37,7 @@ const projects = [
     technologies: ["HTML", "CSS", "JavaScript", "Bootstrap", "Node.js"],
   },
   {
-    title: "Site Lista de Filmes",
+    title: "Lista de Filmes",
     imgUrl: Site_ListaFilmes,
     description:
       "Site Lista de Filmes - Este projeto é uma aplicação React que consome a API do The Movie Database (TMDb) para exibir uma lista de filmes, permitindo busca e visualização de detalhes dos filmes.",
@@ -46,7 +46,7 @@ const projects = [
     technologies: ["React", "CSS", "TMDb", "Node.js"],
   },
   {
-    title: "Projeto Mini Blog",
+    title: "Mini Blog",
     imgUrl: Projeto_MiniBlog,
     description:
       "Projeto Mini Blog - Mini Blog - React + Firebase | Context API Aplicação full-stack de blog desenvolvida com React.js e Firebase como backend. Implementa autenticação de usuários com Firebase Auth, armazenamento de dados no Firestore Database, e gerenciamento de estado global usando React Context API. Funcionalidades completas de CRUD para postagens com interface responsiva.",
@@ -82,14 +82,12 @@ const ProjectCard = ({ project }) => {
         {!isFlipped && (
           <motion.div
             key="frente"
-            className="position-absolute w-100 h-100 rounded cards-front-custom box-shadow-custom"
+            className="position-absolute w-100 rounded cards-front-custom box-shadow-custom"
           >
-            <img
-              src={project.imgUrl}
-              alt={project.title}
-              className="w-100 h-100"
-            />
-            <div className="position-absolute bottom-0 start-0 w-100 p-3">
+            <div>
+              <img src={project.imgUrl} alt={project.title} className="w-100" />
+            </div>
+            <div className="bottom-0 start-0 p-4">
               <h3 className="text-white mb-0 fs-5">{project.title}</h3>
             </div>
           </motion.div>
