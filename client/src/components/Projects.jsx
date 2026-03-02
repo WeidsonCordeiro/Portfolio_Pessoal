@@ -49,9 +49,9 @@ const projects = [
     title: "Mini Blog",
     imgUrl: Projeto_MiniBlog,
     description:
-      "Projeto Mini Blog - Mini Blog - React + Firebase | Context API Aplicação full-stack de blog desenvolvida com React.js e Firebase como backend. Implementa autenticação de usuários com Firebase Auth, armazenamento de dados no Firestore Database, e gerenciamento de estado global usando React Context API. Funcionalidades completas de CRUD para postagens com interface responsiva.",
+      "Projeto Mini Blog - React + node + Firebase | Context API Aplicação full-stack de blog desenvolvida com React.js, node.js e Firebase. Implementa autenticação de usuários com Firebase Auth, armazenamento de dados no Firestore Database, e gerenciamento de estado global usando React Context API. Funcionalidades completas de CRUD para postagens com interface responsiva.",
     githubUrl: "https://github.com/WeidsonCordeiro/MiniBlog.git",
-    deployUrl: "#",
+    deployUrl: "https://miniblog-lake-eight.vercel.app/",
     technologies: ["React", "CSS", "Firebase", "Node.js"],
   },
   // {
