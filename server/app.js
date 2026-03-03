@@ -7,7 +7,7 @@ const port = process.env.PORT || 5000;
 
 const mailjet = Mailjet.apiConnect(
   process.env.MAILJET_API_KEY,
-  process.env.MAILJET_SECRET_KEY,
+  process.env.MAILJET_SECRET_KEY
 );
 
 const app = express();
@@ -34,8 +34,12 @@ app.post("/api/sendEmailContacto", async (req, res) => {
         Messages: [
           {
             From: {
-              Email: email,
+              Email: process.env.MAILJET_FROM_EMAIL,
               Name: "Portifólio - Formulário de Contato",
+            },
+            ReplyTo: {
+              Email: email,
+              Name: name,
             },
             To: [
               {
@@ -51,7 +55,9 @@ app.post("/api/sendEmailContacto", async (req, res) => {
               <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
                 <p><strong>Nome:</strong> ${name}</p>
                 <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Data:</strong> ${new Date().toLocaleString("pt-BR")}</p>
+                <p><strong>Data:</strong> ${new Date().toLocaleString(
+                  "pt-BR"
+                )}</p>
               </div>
               
               <div style="background: #fff; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
@@ -105,7 +111,9 @@ app.post("/api/sendEmailContacto", async (req, res) => {
               <p>Recebi sua mensagem através do formulário de contato do meu Portifólio.</p>
               
               <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                <p><em>"${message.substring(0, 100)}${message.length > 100 ? "..." : ""}"</em></p>
+                <p><em>"${message.substring(0, 100)}${
+              message.length > 100 ? "..." : ""
+            }"</em></p>
               </div>
               
               <p>Vou analisar sua mensagem e responderei o mais breve possível.</p>
@@ -118,7 +126,9 @@ app.post("/api/sendEmailContacto", async (req, res) => {
               
               <p style="font-size: 12px; color: #7f8c8d;">
                 Esta é uma confirmação automática. Por favor, não responda este email.<br>
-                Para entrar em contato: <a href="mailto:${process.env.MAILJET_FROM_EMAIL}">${process.env.MAILJET_FROM_EMAIL}</a>
+                Para entrar em contato: <a href="mailto:${
+                  process.env.MAILJET_FROM_EMAIL
+                }">${process.env.MAILJET_FROM_EMAIL}</a>
               </p>
             </div>
           `,

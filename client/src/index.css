@@ -190,6 +190,21 @@ input:-internal-autofill-selected {
   margin: 0;
 }
 
+.successmsg {
+  font-size: 12px;
+  line-height: 1.36;
+  letter-spacing: 0.1px;
+  text-align: left;
+  color: #4bb543;
+  padding: 0;
+  margin: 0;
+}
+
+.successmsg p {
+  padding: 0;
+  margin: 0;
+}
+
 .cards-front-custom {
   transition: 1s;
 }

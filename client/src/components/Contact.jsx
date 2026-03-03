@@ -1,5 +1,5 @@
 //Hooks
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 //Animations
 import { motion } from "framer-motion";
@@ -20,6 +20,7 @@ const Contact = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [isloading, setIsLoading] = useState(false);
   const pdfFileNamePortugues = "CV-BR-Weidson Cordeiro.pdf";
 
@@ -50,6 +51,7 @@ const Contact = () => {
       setName("");
       setEmail("");
       setMessage("");
+      setSuccess("E-mail enviado com sucesso!");
     } catch (error) {
       console.error("Erro ao enviar E-mail:", error);
       setError("Erro ao enviar E-mail. Tente novamente!");
@@ -57,6 +59,16 @@ const Contact = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        setSuccess(null);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
 
   return (
     <section
@@ -127,6 +139,14 @@ const Contact = () => {
                     style={{ display: error ? "block" : "none" }}
                   >
                     <p>{error}</p>
+                  </div>
+                )}
+                {success && (
+                  <div
+                    className="successmsg mt-3"
+                    style={{ display: success ? "block" : "none" }}
+                  >
+                    <p>{success}</p>
                   </div>
                 )}
               </div>
