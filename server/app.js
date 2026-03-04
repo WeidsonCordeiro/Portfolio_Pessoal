@@ -179,8 +179,9 @@ app.get("/api", (req, res) => {
   res.send("API is working!");
 });
 
-app.listen(port, () => {
-  console.log(`🚀 Server run in http://localhost:${port}`);
-});
-
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () => {
+    console.log(`🚀 Server run in http://localhost:${port}`);
+  });
+}
 module.exports = app;
