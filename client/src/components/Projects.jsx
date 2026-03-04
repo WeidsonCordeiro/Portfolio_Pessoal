@@ -52,7 +52,7 @@ const projects = [
       "Projeto Mini Blog - React + node + Firebase | Context API Aplicação full-stack de blog desenvolvida com React.js, node.js e Firebase. Implementa autenticação de usuários com Firebase Auth, armazenamento de dados no Firestore Database, e gerenciamento de estado global usando React Context API. Funcionalidades completas de CRUD para postagens com interface responsiva.",
     githubUrl: "https://github.com/WeidsonCordeiro/MiniBlog.git",
     deployUrl: "https://miniblog-lake-eight.vercel.app/",
-    technologies: ["React", "CSS", "Firebase", "Node.js"],
+    technologies: ["React", "CSS", "Node.js", "Firebase", "Cloudinary"],
   },
   // {
   //   title: "Projeto ReactGram",
