@@ -43,7 +43,7 @@ const projects = [
       "Site Lista de Filmes - Este projeto é uma aplicação React que consome a API do The Movie Database (TMDb) para exibir uma lista de filmes, permitindo busca e visualização de detalhes dos filmes.",
     githubUrl: "https://github.com/WeidsonCordeiro/Lista_de_Filmes.git",
     deployUrl: "https://movieslib-delta.vercel.app/",
-    technologies: ["React", "CSS", "TMDb", "Node.js"],
+    technologies: ["React", "CSS", "Node.js", "TMDb"],
   },
   {
     title: "Mini Blog",
