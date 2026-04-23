@@ -13,14 +13,14 @@ import Site_AgencyTravel from "../assets/img/Site_AgencyTravel.png";
 import Site_RocharteInvestimentos from "../assets/img/Site_Rocharte_investimentos.png";
 import Site_ListaFilmes from "../assets/img/Site_ListaFilmes.png";
 import Projeto_MiniBlog from "../assets/img/Projeto_MiniBlog.png";
-//import Projeto_ReactGram from "../assets/img/Projeto_ReactGram.png";
+import Projeto_ReactGram from "../assets/img/Projeto_ReactGram.png";
 
 const projects = [
   {
     title: "Agency Travel Fly",
     imgUrl: Site_AgencyTravel,
     description:
-      "Site institucional de agência de viagens - Aplicação Full Stack com integração de API de email (Mailjet) para gestão de contato e consultoria de passagens aéreas. Desenvolvido para captação de clientes e orçamentos personalizados.",
+      "Travel Agency Website é uma aplicação institucional desenvolvida para gestão de contatos e consultoria de passagens aéreas. A plataforma é voltada para captação de clientes e solicitação de orçamentos personalizados, oferecendo uma experiência simples e eficiente para comunicação com a agência.",
     githubUrl:
       "https://github.com/WeidsonCordeiro/Site_Oficial_Agency_Travel.git",
     deployUrl: "https://agencytravelfly.netlify.app/",
@@ -30,7 +30,7 @@ const projects = [
     title: "Rocharte Investimentos Imobiliarios",
     imgUrl: Site_RocharteInvestimentos,
     description:
-      "Site Rocharte Investimentos Imobiliarios - Aplicação Full Stack com integração de API de email (Mailjet) para gestão de contatos e newsletter. Desenvolvido para captação de clientes e orçamentos personalizados.",
+      "Rocharte Investimentos Imobiliários é uma aplicação full-stack desenvolvida para captação de clientes e gestão de contatos. Integra a API de e-mail Mailjet para envio de mensagens e newsletters, oferecendo uma experiência eficiente para geração de leads e solicitação de orçamentos personalizados.",
     githubUrl:
       "https://github.com/WeidsonCordeiro/Site_Oficial_Rochart_Investimentos.git",
     deployUrl: "https://rochartinvestimentos.vercel.app/",
@@ -40,7 +40,7 @@ const projects = [
     title: "Lista de Filmes",
     imgUrl: Site_ListaFilmes,
     description:
-      "Site Lista de Filmes - Este projeto é uma aplicação React que consome a API do The Movie Database (TMDb) para exibir uma lista de filmes, permitindo busca e visualização de detalhes dos filmes.",
+      "MovieList é uma aplicação full-stack que consome a API do The Movie Database (TMDb) para exibir, buscar e visualizar detalhes de filmes. Desenvolvida com foco em performance e experiência do usuário, a aplicação oferece navegação dinâmica, listagem atualizada e interface intuitiva.",
     githubUrl: "https://github.com/WeidsonCordeiro/Lista_de_Filmes.git",
     deployUrl: "https://movieslib-delta.vercel.app/",
     technologies: ["React", "CSS", "Node.js", "TMDb"],
@@ -49,20 +49,20 @@ const projects = [
     title: "Mini Blog",
     imgUrl: Projeto_MiniBlog,
     description:
-      "Projeto Mini Blog - React + node + Firebase | Context API Aplicação full-stack de blog desenvolvida com React.js, node.js e Firebase. Implementa autenticação de usuários com Firebase Auth, armazenamento de dados no Firestore Database, e gerenciamento de estado global usando React Context API. Funcionalidades completas de CRUD para postagens com interface responsiva.",
+      "MiniBlog é uma aplicação full-stack de blog desenvolvida com React e Firebase. Utiliza Firebase Authentication para autenticação de usuários e Firestore para persistência de dados. O gerenciamento de estado global é feito com Context API, oferecendo funcionalidades completas de CRUD de posts, navegação dinâmica e experiência fluida no frontend.",
     githubUrl: "https://github.com/WeidsonCordeiro/MiniBlog.git",
     deployUrl: "https://miniblog-lake-eight.vercel.app/",
     technologies: ["React", "CSS", "Node.js", "Firebase", "Cloudinary"],
   },
-  // {
-  //   title: "Projeto ReactGram",
-  //   imgUrl: Projeto_ReactGram,
-  //   description:
-  //     "Projeto ReactGram - Instagram Clone | React + Redux + MongoDB Aplicação full-stack replicando funcionalidades do Instagram. Desenvolvida com React.js, Redux para gerenciamento de estado global, e Node.js/Express no backend com MongoDB. Features: sistema completo de autenticação, upload de imagens com preview, CRUD de posts, like/comentários, feed personalizado e perfil de usuário com interface responsiva.",
-  //   githubUrl: "#",
-  //   deployUrl: "#",
-  //   technologies: ["React", "CSS", "MongoDB", "Node.js"],
-  // },
+  {
+    title: "Projeto ReactGram",
+    imgUrl: Projeto_ReactGram,
+    description:
+      "ReactGram é uma aplicação full-stack inspirada no Instagram, construída com React (Vite), Redux Toolkit e Node.js/Express. Utiliza MongoDB para persistência de dados e JWT para autenticação segura com logout automático. Inclui upload de imagens com Cloudinary, CRUD de posts, sistema de likes e comentários, feed dinâmico e gerenciamento de perfil de usuário.",
+    githubUrl: "https://github.com/WeidsonCordeiro/Projeto_ReactGram.git",
+    deployUrl: "https://reactgram-blond.vercel.app",
+    technologies: ["React", "CSS", "MongoDB", "Node.js"],
+  },
 ];
 
 const ProjectCard = ({ project }) => {
@@ -155,13 +155,11 @@ const Projects = () => {
               Projetos
             </motion.h2>
 
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <div className="projects-grid">
               {projects.map((project, index) => (
                 <motion.div
                   key={project.title}
                   className="col transition-custom"
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
                 >
                   <ProjectCard project={project} />
                 </motion.div>
