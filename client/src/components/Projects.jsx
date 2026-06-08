@@ -14,6 +14,7 @@ import Site_RocharteInvestimentos from "../assets/img/Site_Rocharte_investimento
 import Site_ListaFilmes from "../assets/img/Site_ListaFilmes.png";
 import Projeto_MiniBlog from "../assets/img/Projeto_MiniBlog.png";
 import Projeto_ReactGram from "../assets/img/Projeto_ReactGram.png";
+import Projeto_SocialMedia from "../assets/img/Projeto_SocialMedia.png";
 
 const projects = [
   {
@@ -62,6 +63,22 @@ const projects = [
     githubUrl: "https://github.com/WeidsonCordeiro/Projeto_ReactGram.git",
     deployUrl: "https://reactgram-blond.vercel.app",
     technologies: ["React", "CSS", "MongoDB", "Node.js"],
+  },
+  {
+    title: "Projeto Social Media",
+    imgUrl: Projeto_SocialMedia,
+    description:
+      "ReactGram é uma aplicação full-stack inspirada em redes sociais, desenvolvida com React (Vite) e Node.js/Express. Utiliza MongoDB e JWT para autenticação segura. Possui upload de imagens, CRUD completo de posts (criação, edição e exclusão), sistema de likes e comentários, feed dinâmico, gerenciamento de perfil e status online em tempo real com Socket.io",
+    githubUrl: "https://github.com/WeidsonCordeiro/Projeto_Social_Media.git",
+    deployUrl: "#",
+    technologies: [
+      "React",
+      "CSS",
+      "MongoDB",
+      "Node.js",
+      "cloudinary",
+      "Socket.io",
+    ],
   },
 ];
 
