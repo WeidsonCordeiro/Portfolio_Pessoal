@@ -35,7 +35,7 @@ const projects = [
     githubUrl:
       "https://github.com/WeidsonCordeiro/Site_Oficial_Rochart_Investimentos.git",
     deployUrl: "https://rochartinvestimentos.vercel.app/",
-    technologies: ["HTML", "CSS", "JavaScript", "Bootstrap", "Node.js"],
+    technologies: ["HTML", "Bootstrap", "JavaScript", "Node.js"],
   },
   {
     title: "Lista de Filmes",
@@ -70,7 +70,7 @@ const projects = [
     description:
       "ReactGram é uma aplicação full-stack inspirada em redes sociais, desenvolvida com React (Vite) e Node.js/Express. Utiliza MongoDB e JWT para autenticação segura. Possui upload de imagens, CRUD completo de posts (criação, edição e exclusão), sistema de likes e comentários, feed dinâmico, gerenciamento de perfil e status online em tempo real com Socket.io",
     githubUrl: "https://github.com/WeidsonCordeiro/Projeto_Social_Media.git",
-    deployUrl: "https://socialmedia-eta-flax.vercel.app",
+    deployUrl: "https://socialmedia-eta-flax.vercel.app/",
     technologies: [
       "React",
       "CSS",
