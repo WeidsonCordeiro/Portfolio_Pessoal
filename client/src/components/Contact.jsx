@@ -79,17 +79,17 @@ const Contact = () => {
         {({ inView, ref }) => (
           <div ref={ref} className="w-100" style={{ maxWidth: "600px" }}>
             <motion.h2
-              className="display-5 fw-bold mb-5 text-center transition-custom"
+              className="display-5 fw-bold mb-5 text-center"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
             >
-              Contato
+              Contacto
             </motion.h2>
 
             <motion.form
               noValidate
               onSubmit={handleSubmit}
-              className="d-flex flex-column gap-4 transition-custom"
+              className="d-flex flex-column gap-4"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
             >

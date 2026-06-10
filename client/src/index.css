@@ -18,6 +18,15 @@
   box-shadow: rgba(107, 33, 168, 0.7) 0 0 30px;
 }
 
+.transition-custom {
+  transition: 1s;
+}
+
+.transition-custom:hover {
+  scale: 1.05;
+}
+
+/* Component Header */
 .navbar-custom {
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(12px);
@@ -46,30 +55,6 @@
   white-space: nowrap;
 }
 
-.img-about-custom {
-  border-color: var(--bg-space-purple);
-  max-width: 350px;
-}
-
-.transition-custom {
-  transition: 1s;
-}
-
-.skill-card {
-  background-color: rgba(30, 30, 63, 0.3);
-  backdrop-filter: blur(10px);
-  border-radius: 0.5rem;
-  transition: 1s;
-}
-
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1.5rem;
-  width: 100%;
-  margin: 0 auto;
-}
-
 .text-shimmer {
   background-image: linear-gradient(
     to right,
@@ -84,6 +69,34 @@
   animation: shimmer 5s linear infinite;
 }
 
+/* Component About */
+.img-about-custom {
+  border-color: var(--bg-space-purple);
+  max-width: 350px;
+}
+
+/* Component Skills */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.skill-card {
+  background-color: rgba(30, 30, 63, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 0.5rem;
+  transition: 1s;
+}
+
+/* Component Project */
+.card-body-title {
+  font-size: 13px;
+}
+
+/* Component Contact */
 .input-fields-custom {
   position: relative;
 }
@@ -175,74 +188,7 @@ input:-internal-autofill-selected {
   box-shadow: 0 0 0 1000px rgba(30, 30, 63, 0.3) inset !important;
 }
 
-.errormsg {
-  font-size: 12px;
-  line-height: 1.36;
-  letter-spacing: 0.1px;
-  text-align: left;
-  color: #d0011b;
-  padding: 0;
-  margin: 0;
-}
-
-.errormsg p {
-  padding: 0;
-  margin: 0;
-}
-
-.successmsg {
-  font-size: 12px;
-  line-height: 1.36;
-  letter-spacing: 0.1px;
-  text-align: left;
-  color: #4bb543;
-  padding: 0;
-  margin: 0;
-}
-
-.successmsg p {
-  padding: 0;
-  margin: 0;
-}
-
-.cards-front-custom {
-  transition: 1s;
-}
-
-.cards-front-custom:hover {
-  scale: 1.05;
-}
-
-.cards-front-custom img {
-  background-color: rgba(0, 0, 0, 0.6);
-  object-fit: contain;
-}
-
-.cards-back-custom {
-  background-color: #404097;
-  overflow-y: auto;
-}
-
-.cards-back-custom span {
-  font-size: 0.75rem;
-}
-
-.cards-back-custom p {
-  word-break: break-word; /*Garante que o texto quebre corretamente dentro do card*/
-}
-
-.cards-back-custom a {
-  font-size: 1.1rem;
-  text-decoration: none;
-  color: var(--bs-body-color);
-}
-
-.projects-grid {
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: repeat(1, 1fr);
-}
-
+/* resizing */
 @media (min-width: 576px) {
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -272,4 +218,35 @@ input:-internal-autofill-selected {
   100% {
     background-position: 0% 50%;
   }
+}
+
+/* Messages */
+.errormsg {
+  font-size: 12px;
+  line-height: 1.36;
+  letter-spacing: 0.1px;
+  text-align: left;
+  color: #d0011b;
+  padding: 0;
+  margin: 0;
+}
+
+.errormsg p {
+  padding: 0;
+  margin: 0;
+}
+
+.successmsg {
+  font-size: 12px;
+  line-height: 1.36;
+  letter-spacing: 0.1px;
+  text-align: left;
+  color: #4bb543;
+  padding: 0;
+  margin: 0;
+}
+
+.successmsg p {
+  padding: 0;
+  margin: 0;
 }
