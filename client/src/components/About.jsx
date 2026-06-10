@@ -16,7 +16,8 @@ const About = () => {
         {({ inView, ref }) => (
           <motion.div ref={ref} className="w-100">
             <motion.h2
-              className="display-5 fw-bold mb-5 text-center transition-custom"
+              style={{ transition: "1s" }}
+              className="display-5 fw-bold mb-5 text-center"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
             >
@@ -24,9 +25,10 @@ const About = () => {
             </motion.h2>
 
             <motion.div
+              style={{ transition: "1s" }}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className="row align-items-center gap-5 max-w-4xl mx-auto transition-custom"
+              className="row align-items-center gap-5 max-w-4xl mx-auto"
             >
               <div className="col-12 col-md-5 text-center">
                 <motion.img

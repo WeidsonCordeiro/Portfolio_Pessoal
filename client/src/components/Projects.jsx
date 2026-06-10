@@ -18,20 +18,26 @@ export default function Projects() {
     <>
       <section id="projects" className="container py-5">
         <motion.h2
-          className="display-5 fw-bold mb-5 text-center transition-custom"
+          style={{ transition: "1s" }}
+          className="display-5 fw-bold mb-5 text-center"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
         >
           Projetos
         </motion.h2>
 
-        <div className="row g-4">
+        <motion.div
+          className="row g-4"
+          style={{ transition: "1s" }}
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+        >
           {projects.map((project) => (
             <div key={project.id} className="col-lg-4 col-md-6">
               <ProjectCard project={project} onOpen={setSelectedProject} />
             </div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       <ProjectModal

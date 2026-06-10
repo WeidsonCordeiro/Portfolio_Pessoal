@@ -79,6 +79,7 @@ const Contact = () => {
         {({ inView, ref }) => (
           <div ref={ref} className="w-100" style={{ maxWidth: "600px" }}>
             <motion.h2
+              style={{ transition: "1s" }}
               className="display-5 fw-bold mb-5 text-center"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -90,6 +91,7 @@ const Contact = () => {
               noValidate
               onSubmit={handleSubmit}
               className="d-flex flex-column gap-4"
+              style={{ transition: "1s" }}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
             >
@@ -160,7 +162,8 @@ const Contact = () => {
             </motion.form>
 
             <motion.div
-              className="d-flex justify-content-center gap-4 mt-5 transition-custom"
+              style={{ transition: "1s" }}
+              className="d-flex justify-content-center gap-4 mt-5"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
             >

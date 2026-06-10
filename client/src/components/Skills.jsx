@@ -47,17 +47,18 @@ const Skills = () => {
         {({ inView, ref }) => (
           <div ref={ref} className="w-100">
             <motion.h2
-              className="display-5 fw-bold mb-5 text-center transition-custom"
+              style={{ transition: "1s" }}
+              className="display-5 fw-bold mb-5 text-center"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
             >
               Habilidades
             </motion.h2>
             <motion.h3
-              className="h3 fw-bold mb-4 text-center text-success transition-custom"
+              className="h3 fw-bold mb-4 text-center text-success"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              style={{ color: "#6b21a8" }}
+              style={{ color: "#6b21a8", transition: "1s" }}
             >
               Fullstack
             </motion.h3>

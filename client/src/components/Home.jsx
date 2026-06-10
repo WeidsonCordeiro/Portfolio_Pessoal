@@ -9,7 +9,8 @@ const Home = () => {
     >
       <div>
         <motion.h1
-          className="display-3 display-md-2 display-lg-1 fw-bold text-white transition-custom"
+          style={{ transition: "1s" }}
+          className="display-3 display-md-2 display-lg-1 fw-bold text-white"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
         >
