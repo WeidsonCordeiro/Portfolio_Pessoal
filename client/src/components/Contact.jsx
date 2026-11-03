@@ -13,7 +13,7 @@ import { HiMiniDocumentArrowDown } from "react-icons/hi2";
 import { requestConfig } from "../utils/config";
 
 //Documents
-import CV_Portugues from "../assets/doc/CV_BR_Weidson_Cordeiro.pdf";
+import CV_Ingles from "../assets/doc/CV_EN_Weidson_Cordeiro.pdf";
 
 const Contact = () => {
   const [name, setName] = useState("");
@@ -22,7 +22,6 @@ const Contact = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [isloading, setIsLoading] = useState(false);
-  const pdfFileNamePortugues = "CV-BR-Weidson Cordeiro.pdf";
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -190,7 +189,7 @@ const Contact = () => {
                   size={32}
                 />
               </a>
-              <a href={CV_Portugues} download>
+              <a href={CV_Ingles} download>
                 <HiMiniDocumentArrowDown
                   className="box-shadow-custom text-white"
                   size={32}
