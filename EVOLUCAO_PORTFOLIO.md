@@ -4,6 +4,79 @@
 **Repositório:** `Portfolio_Pessoal`  
 **Site:** https://portifolio-green-seven-45.vercel.app/
 
+## Estado actual do projeto
+
+**Actualizado:** 13 Nov 2026 (revisão final README — §17)  
+**Fonte:** inspecção Git local + pedidos HTTP (não substitui teste funcional completo nem confirma Mailjet).
+
+### Repositório
+
+| Item | Estado |
+|------|--------|
+| Branch local | `main` (alinhada com `origin/main`) |
+| Por commitar (nesta sessão) | [`README.md`](README.md), [`EVOLUCAO_PORTFOLIO.md`](EVOLUCAO_PORTFOLIO.md) |
+| [`vercel.json`](vercel.json) | Igual a `HEAD` — rotas com destinos `/client/...` e `/server/app.js` |
+| Routing Vercel no Git | **Integrado** — `5f3395b`, merge PR #2 `56b877c` |
+
+### GalaxyBackground
+
+- **Estado válido no código:** restauro §10.8, síntese §10.9 — WebGL **sempre** montado (sem `.galaxy-starfield`).
+- **Histórico:** tentativas nas §§10.7–10.8 (não apagar).
+
+### Vercel e produção
+
+| Camada | Estado |
+|--------|--------|
+| Configuração versionada (`main` / `HEAD`) | Rotas [`vercel.json`](vercel.json) com prefixo interno `client/` (§12.3) — **concluído no repositório** |
+| Smoke HTTP (13 Nov 2026) | `GET /` → **200**; `GET /robots.txt` → **200**; `GET /api` → **200** |
+| Limitação do smoke | Respostas **200** nos cabeçalhos **não** garantem render completo da SPA, assets correctos, nem envio Mailjet |
+| Não verificado nesta sessão | Corpo HTML/JS da SPA, assets concretos do deployment activo, `GET /sitemap.xml`, `GET /icon.png`, `POST /api/sendEmailContacto` |
+
+### Integração contínua
+
+- Workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) **versionado em `main`** (introduzido no commit `e7c6fd9`).
+- Gatilhos: `push`/`pull_request` em `main` (ver §11).
+- **Execuções no GitHub Actions:** não consultadas neste ambiente (`gh` indisponível) — confirmar manualmente no painel *Actions* se necessário.
+
+### Pendências abertas (vigentes)
+
+1. URLs GitHub e demo do **SchedulerPro** (placeholders no spotlight).
+2. **Commit + push** de [`README.md`](README.md) e [`EVOLUCAO_PORTFOLIO.md`](EVOLUCAO_PORTFOLIO.md) (e restantes alterações locais), só com autorização.
+3. Validação funcional em produção: assets referenciados no `index.html`, `sitemap.xml`, `icon.png`, `POST /api/sendEmailContacto` (Mailjet).
+4. Confirmar runs do CI no GitHub (sucesso/falha) — sem evidência remota nesta revisão.
+5. Lighthouse formal pós-deploy (opcional).
+6. Comparação foto perfil A vs B (opcional, `client/.perfil-compare/`).
+
+### Registo histórico
+
+As secções **1–6** e **9** descrevem o trabalho de **12 Nov 2026**. A **§7** lista pendências da mesma data — algumas já parcialmente resolvidas (ex.: routing no repo, smoke HTTP parcial); o texto mantém-se como arquivo.
+
+---
+
+## Índice
+
+1. [Estado inicial](#1-estado-inicial)
+2. [Sincronização Git](#2-sincronização-git)
+3. [Alterações implementadas](#3-alterações-implementadas)
+4. [Ficheiros principais criados/alterados](#4-ficheiros-principais-criadosalterados)
+5. [Dependências](#5-dependências)
+6. [Testes executados](#6-testes-executados)
+7. [Pendências](#7-pendências)
+8. [Decisões técnicas](#8-decisões-técnicas)
+9. [Validação final pós-implementação](#9-validação-final-pós-implementação)
+10. [Correção urgente — perfil e fundo espacial](#10-correção-urgente--perfil-e-fundo-espacial)
+11. [Integração contínua](#11-integração-contínua)
+12. [Deploy Vercel — build automático do frontend](#12-deploy-vercel--build-automático-do-frontend)
+13. [Documentação — README](#13-documentação--readme)
+14. [Documentação — revisão final do README](#14-documentação--revisão-final-do-readme)
+15. [Documentação — consolidação final](#15-documentação--consolidação-final)
+16. [Documentação — consistência EVOLUCAO (§10–12)](#16-documentação--consistência-evolucao-1012)
+17. [Documentação — revisão final README e validação](#17-documentação--revisão-final-readme-e-validação)
+
+[Estado actual do projeto](#estado-actual-do-projeto) · [§10.7 Galaxy diagnóstico](#107-diagnóstico-galaxy--causa-raiz-e-correcção-definitiva) · [§10.8 Restauro Galaxy](#108-restauro-galaxy-original-referência-vercel--9e796f1) · [§10.9 Estado válido Galaxy](#109-estado-válido-e-pendências-pós-restauro) · [§12.1](#121-diagnóstico-404-em-produção-commit-c40b204) · [§12.2](#122-inspeção-do-output--vercelstatic-build-evidência) · [§12.3](#123-correção-do-routing-estático--branch-fixvercel-static-routing-404)
+
+---
+
 ## 1. Estado inicial
 
 - Branch local `main` com melhorias da auditoria (não commitadas).
@@ -61,8 +134,10 @@
 
 ### Identidade futurista preservada
 
+> **Nota (13 Nov 2026):** o comportamento **actual** do fundo está em **§10.8** (WebGL sempre activo). O bullet abaixo sobre `prefers-reduced-motion` reflecte a fase da auditoria de 12 Nov, antes do restauro.
+
 - Galaxy WebGL mantida; partículas reduzidas; lazy chunk
-- `prefers-reduced-motion` → gradiente espacial
+- `prefers-reduced-motion` → gradiente espacial *(fase auditoria; ver §10.8)*
 - **Page Visibility API** — pausa animação com tab inativa
 
 ### SEO / a11y / performance (extensão da auditoria)
@@ -92,6 +167,26 @@
 | Vitest (client) | N/A — sem script de testes no portfólio |
 | `npm test` (server) | Não executado (script placeholder) |
 | Lighthouse (build inicial) | Ver secção 9 — validação |
+
+## 7. Pendências
+
+*Registo de 12 Nov 2026. Para pendências **vigentes**, ver [Estado actual do projeto](#estado-actual-do-projeto).*
+
+1. URLs GitHub e demo do **SchedulerPro** (substituir placeholders)
+2. **Commit + push + deploy Vercel** — **pronto para comando único** quando autorizares (índice Git unificado, stash `wip-auditoria-pre-pull` eliminado, sem `*.stackdump` staged)
+3. Deploy Vercel para publicar alterações
+4. Lighthouse formal pós-deploy (opcional)
+5. `bash.exe.stackdump` ignorado via `.gitignore`
+6. Lighthouse desktop — repetir localmente se necessário
+
+## 8. Decisões técnicas
+
+*Registo de 12 Nov 2026; decisões mantidas salvo nota em secções posteriores.*
+
+- i18n centralizado em JSON + `slug` nos projetos para evitar duplicar componentes
+- SchedulerPro destacado no spotlight + card modal; omitido da grelha “Destaques” para evitar duplicação
+- SEO dinâmico sem `react-helmet-async` por compatibilidade com React 19
+- Fotografia de perfil: blob **`9e796f1` (versão B)** com compressão sharp (~80 KB no build), após comparação com versão A em `client/.perfil-compare/`
 
 ## 9. Validação final pós-implementação
 
@@ -172,22 +267,6 @@ Desktop: não obteve JSON válido nesta sessão.
 | **Aprovados para desenvolvimento** | Build, i18n UI, a11y modal, robots/sitemap no build, SchedulerPro sem links falsos |
 | **Bloqueadores relativos** | LCP 5.6s; SEO estático só EN; URLs SchedulerPro; deploy pendente |
 | **Melhorias pós-validação aplicadas** | SEO estático reforçado, persistência i18n, `.gitignore` stackdump, staging normalizado |
-
-## 7. Pendências
-
-1. URLs GitHub e demo do **SchedulerPro** (substituir placeholders)
-2. **Commit + push + deploy Vercel** — **pronto para comando único** quando autorizares (índice Git unificado, stash `wip-auditoria-pre-pull` eliminado, sem `*.stackdump` staged)
-3. Deploy Vercel para publicar alterações
-4. Lighthouse formal pós-deploy (opcional)
-5. `bash.exe.stackdump` ignorado via `.gitignore`
-6. Lighthouse desktop — repetir localmente se necessário
-
-## 8. Decisões técnicas
-
-- i18n centralizado em JSON + `slug` nos projetos para evitar duplicar componentes
-- SchedulerPro destacado no spotlight + card modal; omitido da grelha “Destaques” para evitar duplicação
-- SEO dinâmico sem `react-helmet-async` por compatibilidade com React 19
-- Fotografia de perfil: blob **`9e796f1` (versão B)** com compressão sharp (~80 KB no build), após comparação com versão A em `client/.perfil-compare/`
 
 ## 10. Correção urgente — perfil e fundo espacial
 
@@ -362,11 +441,11 @@ Stacking: mantido `style={{ zIndex: -1 }}` no galaxy; testado com `app-shell-con
 
 **Nota acessibilidade (fora de âmbito deste restauro):** o original ignora `reduce` para o canvas; uma desaceleração só de rotação **sem** desmontar WebGL pode ser avaliada num pedido futuro.
 
-### 10.6 Estado actual e pendências (pós-§10.8)
+### 10.9 Estado válido e pendências (pós-restauro)
 
-As secções **10.7** e **10.8** mantêm o histórico das tentativas de correcção do galaxy; o **estado válido** do site é o descrito abaixo.
+**Panorama geral:** ver [Estado actual do projeto](#estado-actual-do-projeto). As secções **10.7** e **10.8** são **cronologia**; o **estado válido** no código é o descrito abaixo (equivalente ao que estava em §10.6 antes da reordenação documental).
 
-#### Estado actual (validação aprovada)
+#### Estado válido (pós-§10.8)
 
 - **GalaxyBackground** restaurado ao comportamento de `9e796f1` / Vercel: WebGL **sempre** montado, com `prefers-reduced-motion: reduce` e `no-preference`.
 - Canvas WebGL confirmado em `http://localhost:5173/` e `http://127.0.0.1:4173/` (`canvasCount === 1` em ambos os modos).
@@ -375,13 +454,13 @@ As secções **10.7** e **10.8** mantêm o histórico das tentativas de correcç
 - Fotografia de perfil **versão B** preservada (~80 KB no build).
 - Preservados: internacionalização EN/pt-PT, SEO (`SiteHelmet`), secção Experience, SchedulerPro Spotlight, modais, navegação, formulário de contacto, restante auditoria (sem alteração de galaxy/foto nesta fase).
 
-#### Pendências
+#### Pendências (Galaxy / entrega — registo 12–13 Nov)
 
 - Confirmação opcional foto **A** vs **B** (comparação em `client/.perfil-compare/`).
-- **Commit e push** das alterações locais (só com autorização).
-- **Primeira execução** do workflow GitHub Actions após o push (ver §11).
-- Deploy Vercel para publicar o estado actual (fora do âmbito de correções pontuais).
-- URLs finais do SchedulerPro no spotlight, se ainda em revisão.
+- **Commit e push** de alterações locais pendentes de autorização (hoje: sobretudo documentação).
+- URLs finais do SchedulerPro no spotlight.
+
+*Nota:* routing Vercel e workflow CI já estão em `origin/main` — ver Estado actual e §11 (não repetir «deploy Vercel pendente» ou «primeiro push do workflow» como vigentes).
 
 ---
 
@@ -389,8 +468,10 @@ As secções **10.7** e **10.8** mantêm o histórico das tentativas de correcç
 
 ### CI — GitHub Actions
 
-**Data:** 13 Nov 2026  
+**Data:** 13 Nov 2026 (texto revisado 13 Nov — consistência)  
 **Ficheiro:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+
+**No repositório (`main` / `HEAD`):** o workflow está versionado (commit `e7c6fd9` no historial do ficheiro). **Não** depende de um push futuro para existir no Git.
 
 #### Eventos
 
@@ -445,9 +526,13 @@ As secções **10.7** e **10.8** mantêm o histórico das tentativas de correcç
 
 **actionlint:** não executado (`npx actionlint` indisponível no ambiente); o workflow segue o esquema oficial de `actions/checkout@v4` e `actions/setup-node@v4`.
 
-#### Pendência GitHub
+#### Estado no GitHub Actions
 
-O workflow **ainda não foi executado no GitHub** — depende de **commit + push** que inclua `.github/workflows/ci.yml`. Após o push, confirmar a primeira run em *Actions* do repositório.
+| Camada | Estado |
+|--------|--------|
+| Ficheiro no `main` | **Presente** — verificado via `git show HEAD:.github/workflows/ci.yml` |
+| Execuções remotas | **Não verificadas** nesta revisão (`gh run list` indisponível) — consultar o painel *Actions* do repositório para confirmar runs após pushes a `main` |
+| CI «passou» | **Não afirmado** — sem evidência de run bem-sucedida neste ambiente |
 
 ---
 
@@ -467,22 +552,28 @@ O workflow **ainda não foi executado no GitHub** — depende de **commit + push
 
 `@vercel/static` apenas **publica** ficheiros já existentes; não corre o script `build` do Vite. Sem `dist` no repositório, as rotas apontavam para ficheiros inexistentes no ambiente remoto.
 
-### Solução implementada
+### Evolução da solução (builders + rotas)
 
-| Componente | Antes | Depois |
-|------------|-------|--------|
-| Build frontend | `@vercel/static` → `client/dist/**/*` | `@vercel/static-build` → [`client/package.json`](client/package.json), `distDir: "dist"` |
-| Build backend | `@vercel/node` → `server/app.js` | **Inalterado** |
-| Rotas estáticas | `dest` com prefixo `/client/dist/...` | `dest` na **raiz do output** (`/index.html`, `/assets/*`, etc.) |
-| Script Vercel | — | `vercel-build`: `vite build` em `client/package.json` |
-| Node | — | `engines.node`: `>=20.19.0` (requisito Vite 7) |
+| Fase | Build frontend | Rotas estáticas (`dest`) | Notas |
+|------|----------------|--------------------------|--------|
+| **Histórico** | `@vercel/static` → `client/dist/**/*` | `/client/dist/...` | Sem `vite build` no deploy GitHub |
+| **Intermédia (`c40b204`)** | `@vercel/static-build` + `distDir: dist` | `/index.html`, `/$1`, `/robots.txt` na **raiz** | Regressão 404 — §12.1 |
+| **Actual (`HEAD` / `main`)** | `@vercel/static-build` em [`client/package.json`](client/package.json) | `/client/index.html`, `/client/$1`, `/client/robots.txt`, etc. | `5f3395b`, merge `56b877c` — §12.3 |
+
+| Componente | Estado actual |
+|------------|----------------|
+| Build backend | `@vercel/node` → `server/app.js` — inalterado |
+| Script Vercel | `vercel-build`: `vite build` em `client/package.json` |
+| Node | `engines.node`: `>=20.19.0` (requisito Vite 7) |
 
 ### Ficheiros modificados
 
 - [`vercel.json`](vercel.json)
 - [`client/package.json`](client/package.json) — `vercel-build`, `engines` (sem alteração de dependências)
 
-### Configuração final do `vercel.json`
+### Configuração histórica do `vercel.json` (fase pós-`c40b204`, rotas na raiz)
+
+> **Arquivo:** configuração intermédia que causou 404 — **não** é a actual. Substituída por §12.3 e por [`vercel.json`](vercel.json) em `HEAD`.
 
 ```json
 {
@@ -508,13 +599,26 @@ O workflow **ainda não foi executado no GitHub** — depende de **commit + push
 }
 ```
 
-A rota `/api/*` fica **antes** do fallback SPA para o Express não ser capturado por `index.html`.
+A rota `/api/*` ficava antes do fallback SPA; os `dest` na raiz **não** coincidiam com as chaves internas `client/` do `static-build` (§12.2).
+
+### Configuração actual do `vercel.json` (versionada em `main`, `HEAD`)
+
+| Rota pública | `dest` interno |
+|--------------|----------------|
+| `^/api/(.*)` | `/server/app.js` |
+| `^/robots\.txt$` | `/client/robots.txt` |
+| `^/sitemap\.xml$` | `/client/sitemap.xml` |
+| `^/(assets/.*)` | `/client/$1` |
+| `^/icon\.png$` | `/client/icon.png` |
+| `.*` | `/client/index.html` |
+
+Espelha [`vercel.json`](vercel.json) em `HEAD` (`56b877c`). A API mantém-se **antes** do fallback na ordem de avaliação.
 
 ### Estratégia de build (frontend)
 
 1. Vercel instala dependências em `client/` (a partir de `package-lock.json`).
 2. Executa `npm run vercel-build` (ou `build`) → gera `client/dist/`.
-3. Publica o conteúdo de `dist` como estáticos na raiz do deployment.
+3. O builder regista artefactos com prefixo interno **`client/`** (não na raiz `/index.html`) — ver §12.2.
 
 ### Estratégia de publicação (backend)
 
@@ -541,14 +645,32 @@ A rota `/api/*` fica **antes** do fallback SPA para o Express não ser capturado
 | Testes automatizados | **Nenhum** (não aplicável) |
 | `vercel build` (CLI 65) | **Não concluído** — `project_settings_required` (sem `.vercel`/`vercel pull`; executar `vercel pull --yes` ou `vercel build --yes` na máquina com projeto ligado) |
 
+### Consolidação routing (13 Nov 2026)
+
+| Âmbito | Estado |
+|--------|--------|
+| Repositório `main` | [`vercel.json`](vercel.json) versionado com destinos `/client/...` e `/server/app.js` (tabela em §12.3) |
+| Contexto §12.3 | A branch `fix/vercel-static-routing-404` e notas «commit não executado» referem o **momento da correcção**; o conteúdo está integrado na `main` actual |
+| Produção (smoke 13 Nov 2026) | `GET /`, `/robots.txt`, `/api` → **200** — ver [Estado actual](#estado-actual-do-projeto) |
+| Ainda pendente | `POST /api/sendEmailContacto` com Mailjet; verificação de assets concretos do deployment activo |
+
 ### Pendências para validação em produção
 
-- **Commit + push** de `vercel.json` e `client/package.json` na `main`.
-- Aguardar deploy automático Vercel (ou `vercel --prod` após `vercel pull --yes`).
-- Confirmar manualmente: `/` (200 + SPA), `/robots.txt`, `/sitemap.xml`, `/assets/...`, `POST /api/sendEmailContacto` (com env Mailjet no painel).
-- Painel Vercel: **Root Directory** = raiz do repo (não `client` isolado, com este `vercel.json`).
+#### Registo histórico (13 Nov, antes do merge PR #2)
+
+- **Commit + push** de `vercel.json` e `client/package.json` na `main` — **concluído** no Git (`5f3395b`, merge `56b877c`).
+- Aguardar deploy automático Vercel após merge — presumivelmente ocorrido (smoke HTTP 200 parcial); não confirmado pelo dashboard nesta revisão.
+
+#### Pendências actuais (validação funcional)
+
+- Confirmar **conteúdo** da SPA em `/` (não só HTTP 200).
+- `GET /sitemap.xml`, `GET /icon.png`, `GET` de `/assets/*` referenciados no `index.html` activo.
+- `POST /api/sendEmailContacto` com `MAILJET_*` no painel Vercel — **não testado** nesta revisão.
+- Painel Vercel: **Root Directory** = raiz do repo (revisão manual se necessário).
 
 ### Comandos sugeridos para publicar
+
+*Registo histórico — válidos antes do merge do routing; **hoje** o routing já está em `main`.*
 
 ```bash
 cd client && npm run build   # validação opcional local
@@ -560,7 +682,7 @@ vercel pull --yes --environment=production
 vercel --prod
 ```
 
-**Nota:** Não afirmar produção corrigida até existir deploy real e verificação do site.
+**Nota:** Smoke HTTP 200 não substitui verificação funcional completa (SPA, Mailjet, assets).
 
 ### 12.1 Diagnóstico 404 em produção (commit `c40b204`)
 
@@ -629,11 +751,13 @@ A hipótese **`/client/dist/`** como `dest` foi **refutada** na §12.2 (código 
 
 #### Estado do relatório
 
-| Item | Estado |
-|------|--------|
-| Diagnóstico | **Concluído** |
-| Correção de rotas no repo | **Pendente** (aguardar autorização) |
-| Produção funcional | **Não** — confirmado 404 em `c40b204` |
+*Valores abaixo no **momento do incidente** `c40b204`; ver consolidação pós-merge no [Estado actual](#estado-actual-do-projeto).*
+
+| Item | Estado (incidente `c40b204`) | Estado documentado posterior |
+|------|-------------------------------|----------------------------|
+| Diagnóstico | **Concluído** | Mantido como histórico |
+| Correção de rotas no repo | **Pendente** na data §12.1 | **Concluída** — `5f3395b` / PR #2 `56b877c` |
+| Produção funcional | **Não** — 404 confirmado | Smoke parcial 200 em `/`, `/robots.txt`, `/api` — não equivale a validação integral |
 
 ### 12.2 Inspeção do output — `@vercel/static-build` (evidência)
 
@@ -724,6 +848,8 @@ Opcional: rota explícita `^/icon\\.png$` → `/client/icon.png`.
 
 ### 12.3 Correção do routing estático — branch `fix/vercel-static-routing-404`
 
+> **Consolidação (13 Nov 2026):** o routing descrito abaixo está **presente na `main`** ([`vercel.json`](vercel.json)). A referência à branch e a «commit não executado» abaixo é **registo histórico** do momento da correcção — não invalida o estado versionado actual.
+
 **Data:** 13 Nov 2026  
 **Branch:** `fix/vercel-static-routing-404`
 
@@ -769,14 +895,299 @@ Inspeção de [`server/app.js`](server/app.js) — **sem alterações:**
 
 #### Pendências
 
-- **Deploy preview** + testes HTTP reais: `/`, `/assets/*`, `/robots.txt`, `/sitemap.xml`, `/icon.png`, `GET /api`, `POST /api/sendEmailContacto`
-- **Produção** não validada até merge + deploy
-- Se `/api` persistir 404 após deploy: rever logs `@vercel/node` no dashboard
+*Após merge em `main` (`56b877c`):*
+
+- Testes funcionais ainda **não documentados** nesta revisão: `/assets/*` concretos, `sitemap.xml`, `icon.png`, `POST /api/sendEmailContacto`.
+- Smoke parcial: `GET /`, `/robots.txt`, `/api` → 200 (ver Estado actual) — não comprova Mailjet nem corpo da SPA.
+- Se `/api` ou assets falharem: rever logs `@vercel/node` e rotas no dashboard.
 
 #### Git / deploy nesta tarefa
+
+| Ação | Estado (momento branch `fix/vercel-static-routing-404`) | Estado em `main` actual |
+|------|--------------------------------------------------------|-------------------------|
+| Commit | **Não** executado (registo histórico da sessão) | Integrado via PR #2 |
+| Push | **Não** executado (registo histórico) | `origin/main` alinhado |
+| Deploy produção | Não validado na sessão da branch | Smoke HTTP parcial 200 — validação funcional pendente |
+
+---
+
+## 13. Documentação — README
+
+**Data:** 13 Nov 2026  
+**Ficheiro principal:** [`README.md`](README.md)  
+**Alterações em código / config:** nenhuma
+
+### Motivo
+
+O README anterior estava desactualizado face ao estado do repositório: declarava licença **MIT** sem ficheiro `LICENSE`; omitia i18n (i18next), SEO (`SiteHelmet`, `robots.txt`/`sitemap.xml`), deploy Vercel (`vercel.json`), CI (`.github/workflows/ci.yml`), secção Experience, `SchedulerProSpotlight`, `GalaxyBackground`, requisito Node ≥ 20.19 e separação dev/prod da API (proxy Vite vs Vercel).
+
+### Secções do novo README
+
+1. Apresentação e link de produção (neutro, sem garantir estado live pós-deploy)
+2. Tecnologias (Frontend / Backend / Ferramentas)
+3. Funcionalidades (confirmadas no código)
+4. Estrutura do projecto (árvore simplificada)
+5. Executar localmente (client + server, `.env`, proxy `/api`)
+6. Build de produção e `optimize-images`
+7. Deploy Vercel (builders, rotas resumidas, env Mailjet)
+8. GitHub Actions CI
+9. Projetos (`projects.js` + i18n; links não inventados)
+10. Documentação (`AUDITORIA_PORTFOLIO.md`, `EVOLUCAO_PORTFOLIO.md`)
+11. Licença — **não definida** (ausência de `LICENSE`)
+
+**Tom:** português de Portugal; profissional; sem emojis.
+
+### Comandos documentados vs `package.json`
+
+| Comando (README) | Script real | Pacote |
+|------------------|-------------|--------|
+| `npm run dev` | `vite` | `client/package.json` |
+| `npm run build` | `vite build` | `client/package.json` |
+| `npm run preview` | `vite preview` | `client/package.json` |
+| `npm run optimize-images` | `node scripts/optimize-images.mjs` | `client/package.json` |
+| `npm run server` | `nodemon app.js` | `server/package.json` |
+
+**Não documentado:** `npm test` no server (falha propositada; fora do CI).
+
+**Instalação:** `npm ci` recomendado (lockfiles); `npm install` aceitável em local.
+
+### Tecnologias e factos confirmados na revisão
+
+- i18n: `client/src/i18n/`, `locales/en.json`, `pt-PT.json`
+- SEO: `client/public/robots.txt`, `sitemap.xml`; `SiteHelmet.jsx`
+- Vercel: `vercel-build` / `build`; rotas com prefixo interno `client/` (§12.3)
+- CI: Node 22; build `client`, `npm ci` em `server`
+- `engines.node`: `>=20.19.0` em `client/package.json`
+- Sem ficheiro `LICENSE` no repositório
+
+### Inconsistências corrigidas na documentação (não no código)
+
+| Antes (README antigo) | Depois |
+|-----------------------|--------|
+| Licença MIT | Licença não definida |
+| Stack / features incompletas | Listagem alinhada ao código |
+| Sem Vercel / CI / i18n / SEO | Documentados com links relativos |
+
+### Estado Git / entrega
+
+| Ação | Estado |
+|------|--------|
+| Commit | **Não** executado (por pedido) |
+| Push | **Não** executado |
+| Deploy | **Não** executado |
+
+---
+
+## 14. Documentação — revisão final do README
+
+**Data:** 13 Nov 2026  
+**Ficheiros alterados:** [`README.md`](README.md), [`EVOLUCAO_PORTFOLIO.md`](EVOLUCAO_PORTFOLIO.md)  
+**Código / config:** sem alterações
+
+### Âmbito
+
+Revisão de precisão técnica e apresentação Markdown após a reescrita documentada na §13: links, comandos, variáveis de ambiente, rotas Vercel, capturas de ecrã.
+
+### Validações realizadas
+
+| Área | Método | Resultado |
+|------|--------|-----------|
+| Comandos frontend | Leitura de [`client/package.json`](client/package.json) | `dev`, `build`, `preview`, `optimize-images` — alinhados ao README |
+| Comandos backend | Leitura de [`server/package.json`](server/package.json) | `server` → `nodemon app.js` |
+| Variáveis Mailjet / porta | [`server/.env_example`](server/.env_example) + [`server/app.js`](server/app.js) | `MAILJET_API_KEY`, `MAILJET_SECRET_KEY`, `MAILJET_FROM_EMAIL`, `PORT`, `NODE_ENV`; fallback `PORT` **5000** no código se ausente |
+| Proxy dev | [`client/vite.config.js`](client/vite.config.js) | `/api` → `localhost:8800` |
+| Vercel | `git show main:vercel.json` + [`vercel.json`](vercel.json) working tree | **Idênticos** — rotas `client/` + `/server/app.js` |
+| Screenshots | Glob `screenshot*` + inventário `client/src/assets/img/` | Sem capturas do portfólio; apenas thumbnails de projetos / perfil — **secção omitida** no README |
+| Links relativos README | Verificação de paths no repositório | Corrigidos paths quebrados (`vite.config.js` na raiz); restantes confirmados |
+
+### Correcções aplicadas ao README
+
+1. Link de produção — URL completa como texto do link Markdown.
+2. SEO — link para [`client/src/components/SiteHelmet.jsx`](client/src/components/SiteHelmet.jsx).
+3. Code-splitting — link para [`client/vite.config.js`](client/vite.config.js).
+4. Dois terminais — instrução explícita para `client/` + `server/` em simultâneo.
+5. `PORT` — nota sobre fallback 5000 vs proxy 8800; recomendar `.env_example`.
+6. Blocos `preview` e `optimize-images` — `cd client` para copy-paste seguro.
+7. Deploy Vercel — tabela de rotas alinhada à ordem e destinos de `vercel.json` em `main`.
+
+### Problemas encontrados (documentação, não código)
+
+| Problema | Resolução |
+|----------|-----------|
+| Link `vite.config.js` sem prefixo `client/` | Corrigido no README |
+| §12.3 descreve branch `fix/vercel-static-routing-404` e commit pendente | Em **`main`**, `vercel.json` já tem rotas `/client/...` (verificado); §12 permanece registo histórico |
+| Sem imagens de ecrã do site no repo | Sem secção «Capturas de ecrã» |
+
+### Estado Git / entrega
 
 | Ação | Estado |
 |------|--------|
 | Commit | **Não** executado |
 | Push | **Não** executado |
-| Deploy produção | **Não** executado |
+| Deploy | **Não** executado |
+
+---
+
+## 15. Documentação — consolidação final
+
+**Data:** 13 Nov 2026  
+**Ficheiros alterados:** [`README.md`](README.md), [`EVOLUCAO_PORTFOLIO.md`](EVOLUCAO_PORTFOLIO.md)  
+**Código / config:** sem alterações
+
+### Objetivo
+
+Revisão final e consolidação da documentação: precisão do README, organização do relatório de evolução (índice, estado actual, ordem das secções, distinção histórico vs pendências), sem alterar a aplicação.
+
+### Correções no README
+
+- Referência ao [`EVOLUCAO_PORTFOLIO.md`](EVOLUCAO_PORTFOLIO.md) com **índice** e secções 11–12 (deploy/CI).
+- Demais conteúdo mantido após validação (link produção, comandos, env, tabela Vercel, licença não definida, sem screenshots).
+
+### Reorganização do EVOLUCAO
+
+| Alteração | Detalhe |
+|-----------|---------|
+| Estado actual | Novo bloco após o título — Git, Galaxy, Vercel, CI, pendências vigentes |
+| Índice | Links para secções 1–15 + sub-âncoras §12.x |
+| Ordem | §7 e §8 **antes** de §9 (duplicados removidos) |
+| §3 Galaxy | Nota de historial vs §10.8 |
+| §10.9 / §12 | Ponteiros ao Estado actual; «Consolidação routing» em §12 |
+| §12.3 | Nota: routing na `main`; texto da branch = arquivo |
+
+### Validações executadas
+
+| Área | Resultado |
+|------|-----------|
+| Git | `main`; `M` em README e EVOLUCAO; `vercel.json` sem diff vs `HEAD` |
+| HTTP produção | `curl -sI`: `/`, `/robots.txt`, `/api` → **200** (13 Nov 2026) |
+| README — comandos | `client` e `server` `package.json` — inalterados e alinhados |
+| README — rotas Vercel | Tabela igual a [`vercel.json`](vercel.json) |
+| Links relativos | Script de verificação na sessão (paths referenciados no README) |
+| Screenshots portfólio | Inexistentes — README sem secção de capturas |
+
+### Pendências (pós-consolidação)
+
+- Commit/push da documentação (e restantes alterações locais) — só com autorização.
+- Validação alargada produção: `POST` contacto, assets do deploy, `sitemap.xml`, `icon.png`.
+- URLs SchedulerPro; Lighthouse opcional.
+
+### Estado Git
+
+| Ação | Estado |
+|------|--------|
+| Commit | **Não** executado |
+| Push | **Não** executado |
+| Merge | **Não** executado |
+
+---
+
+## 16. Documentação — consistência EVOLUCAO (§10–12)
+
+**Data:** 13 Nov 2026  
+**Ficheiros alterados:** [`EVOLUCAO_PORTFOLIO.md`](EVOLUCAO_PORTFOLIO.md) (principal); [`README.md`](README.md) — **sem alterações** nesta passagem (referências ao índice/§11–12 mantêm-se válidas).
+
+**Código / config / deploy:** nenhuma alteração; **sem** commit, push, merge ou deploy nesta tarefa.
+
+### Objectivo
+
+Eliminar contradições entre o [Estado actual](#estado-actual-do-projeto), o histórico das §§10–12 e o Git/`HEAD` actual (`main` alinhada com `origin/main`), sem apagar cronologia técnica.
+
+### Inconsistências identificadas
+
+| Local | Problema |
+|-------|----------|
+| Estado actual + §11 | Afirmava que o CI «depende de push futuro» do workflow |
+| §11 | Parágrafo «workflow ainda não executado no GitHub» por falta de push do ficheiro |
+| §12 «Solução implementada» | Tabela sugeria rotas na raiz como solução **actual** |
+| §12 JSON «configuração final» | Mostrava rotas `c40b204` (raiz) como se fossem finais |
+| §12 pendências | Pedia commit/push de `vercel.json` já integrado em `main` |
+| §12.1 estado | «Correção pendente» após merge `56b877c` |
+| §12.3 Git | «Commit não executado» sem nota de integração em `main` |
+| §10 | §10.6 após §10.8 (ordem de leitura confusa) |
+
+### Correções realizadas
+
+1. **Estado actual** — CI versionado (`e7c6fd9`); Vercel routing concluído no Git (`5f3395b`/`56b877c`); smoke 200 com ressalvas; pendências vigentes actualizadas.
+2. **§11** — Tabela «Estado no GitHub Actions»: ficheiro presente; runs remotas não verificadas; não afirmar CI verde.
+3. **§12** — Tabela de três fases (histórico / `c40b204` / `HEAD`); JSON antigo renomeado como **histórico**; tabela **configuração actual**; pendências separadas arquivo vs actuais.
+4. **§12.1** — Estado do relatório com coluna posterior pós-merge.
+5. **§12.3** — Pendências e tabela Git com coluna «estado em `main` actual».
+6. **§10** — §10.6 renumerado e movido para **§10.9** após §10.8; índice com sub-âncoras §10.7–10.9.
+
+### Verificações executadas
+
+| Comando / acção | Resultado |
+|-----------------|-----------|
+| `git branch --show-current` | `main` |
+| `git status -sb` | `M` README.md, EVOLUCAO_PORTFOLIO.md |
+| `git diff HEAD -- vercel.json client/package.json .github/workflows/ci.yml` | **Sem diff** |
+| `git show HEAD:vercel.json` | 6 rotas `/client/...` + `/server/app.js` |
+| `git show HEAD:.github/workflows/ci.yml` | Workflow CI presente |
+| `git log -1 --oneline HEAD` | `56b877c` Merge PR #2 (routing) |
+| GitHub Actions (`gh run list`) | **Não executado / indisponível** |
+
+### Pendências que permanecem
+
+- Validação funcional produção: SPA, assets, `sitemap.xml`, `icon.png`, `POST` Mailjet.
+- Consultar painel GitHub Actions para runs reais.
+- Commit/push da documentação local (autorização do utilizador).
+- URLs SchedulerPro; Lighthouse opcional.
+
+### Estado Git (entrega desta tarefa)
+
+| Ação | Estado |
+|------|--------|
+| Commit | **Não** executado |
+| Push | **Não** executado |
+| Merge | **Não** executado |
+| Deploy | **Não** executado |
+
+---
+
+## 17. Documentação — revisão final README e validação
+
+**Data:** 13 Nov 2026  
+**Ficheiros inspecionados:** [`README.md`](README.md), [`EVOLUCAO_PORTFOLIO.md`](EVOLUCAO_PORTFOLIO.md), [`vercel.json`](vercel.json), [`client/package.json`](client/package.json), [`server/package.json`](server/package.json), [`.github/workflows/ci.yml`](.github/workflows/ci.yml), [`client/vite.config.js`](client/vite.config.js), [`server/.env_example`](server/.env_example), [`server/app.js`](server/app.js)
+
+**Ficheiros alterados:** [`README.md`](README.md), [`EVOLUCAO_PORTFOLIO.md`](EVOLUCAO_PORTFOLIO.md) (índice, data Estado actual, §17). Código e config: **sem** alterações.
+
+### Problemas encontrados
+
+| Item | Detalhe |
+|------|---------|
+| Blocos `bash` | Comentários `npm ci # ou npm install` na mesma linha (formatação Markdown indevida em exemplos) |
+| Backend | Bloco `npm run server` sem `cd server` após secção de instalação |
+| Deploy Vercel | README afirmava integração Git↔Vercel «configurada» sem evidência no repositório |
+| Link produção | Já no formato URL completa — sem correcção necessária |
+
+### Correções realizadas
+
+1. **README** — comentários shell em linhas separadas (`# ou, em alternativa:` + `# npm install`); `cd server` antes de `npm run server`.
+2. **README** — texto Vercel: distinção config no repo (`vercel.json`) vs confirmação da integração Git no painel Vercel; sem afirmar último deploy validado.
+3. **EVOLUCAO** — verificação de consistência §§10–16: **mantidas** (10.7–10.9, CI versionado, routing em `main`, smoke com limitações, pendências). Índice + §17.
+
+### Validações executadas
+
+| Verificação | Resultado |
+|-------------|-----------|
+| `git branch --show-current` | `main` |
+| `git status -sb` | `M` README.md, EVOLUCAO_PORTFOLIO.md |
+| `git diff HEAD -- vercel.json client/package.json server/package.json .github/workflows/ci.yml` | **Sem diff** |
+| Links relativos no README | Todos os paths testados — **OK** |
+| Comandos vs `package.json` | `dev`, `build`, `preview`, `optimize-images`, `server` — alinhados |
+| Tabela rotas README vs `vercel.json` | Ordem e `dest` — alinhados |
+| Mailjet / `PORT` | Nomes conforme `.env_example` e `app.js` |
+| Testes HTTP / Mailjet / CI remoto | **Não** repetidos nesta tarefa (mantém registo do Estado actual) |
+
+### Pendências que permanecem abertas
+
+Conforme [Estado actual do projeto](#estado-actual-do-projeto): SchedulerPro URLs; commit/push da documentação local; validação funcional produção (assets, `sitemap.xml`, `icon.png`, `POST` Mailjet); runs do CI no GitHub; Lighthouse opcional; foto A vs B opcional.
+
+### Estado Git (fim da tarefa)
+
+| Ação | Estado |
+|------|--------|
+| Commit | **Não** executado |
+| Push | **Não** executado |
+| Merge | **Não** executado |
+| Deploy | **Não** executado |
