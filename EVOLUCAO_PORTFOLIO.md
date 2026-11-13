@@ -561,3 +561,222 @@ vercel --prod
 ```
 
 **Nota:** Não afirmar produção corrigida até existir deploy real e verificação do site.
+
+### 12.1 Diagnóstico 404 em produção (commit `c40b204`)
+
+**Data:** 13 Nov 2026  
+**URL:** https://portifolio-green-seven-45.vercel.app/  
+**Estado Vercel:** Ready (build concluído com sucesso)  
+**Sintoma:** `404 NOT_FOUND` na página principal e nos restantes paths testados.
+
+#### Problema observado
+
+Após o merge **`c40b204`** (`fix/vercel-frontend-build`), o build remoto passou a executar (`@vercel/static-build`), mas o site em produção devolve **404** com cabeçalho `X-Vercel-Error: NOT_FOUND` e corpo *"The page could not be found"*.
+
+#### Causa raiz (alta evidência)
+
+| Factor | Detalhe |
+|--------|---------|
+| Build frontend | **Corrigido** — `@vercel/static-build` em `client/package.json` + `vercel-build` |
+| Rotas estáticas | **Regressão** — no `c40b204` os `dest` mudaram de `/client/dist/...` para `/index.html`, `/$1`, `/robots.txt` na raiz |
+| Layout dos artefactos | Com `src: client/package.json` e `distDir: dist`, o output do Vite fica em **`client/dist/`** no bundle do deployment (não na raiz `/index.html` do sistema interno) |
+| Efeito | Os `dest` actuais **não correspondem** a ficheiros existentes → router Vercel responde `NOT_FOUND` |
+
+**Comparação de rotas:**
+
+| Rota pública | Pré-`c40b204` (`dest`) | `c40b204` (`dest`) |
+|--------------|------------------------|---------------------|
+| SPA / fallback | `/client/dist/index.html` | `/index.html` |
+| Assets | `/client/dist/$1` | `/$1` |
+| robots / sitemap | `/client/dist/robots.txt` … | `/robots.txt` … |
+| API | `/server/app.js` | `/server/app.js` (inalterado) |
+
+#### Hipótese secundária (verificar no dashboard)
+
+- **Root Directory** ≠ raiz do repositório, ou **Build/Output** no painel a conflituar com `builds` legados em `vercel.json`.
+- Pode contribuir para **`/api` também em 404** (não só estáticos), não confirmável sem logs do deployment nem Project Settings.
+
+#### Evidência HTTP (produção, 13 Nov 2026)
+
+| URL | HTTP | Header |
+|-----|------|--------|
+| `/` | 404 | `X-Vercel-Error: NOT_FOUND` |
+| `/robots.txt` | 404 | idem |
+| `/sitemap.xml` | 404 | idem |
+| `/api` | 404 | idem (não atinge Express `GET /api` → "API is working!") |
+| `/assets/*.js` | 404 | idem |
+
+**Não obtido:** inventário de ficheiros do deployment (`vercel inspect` — CLI sem token válido).
+
+#### Ficheiros / configuração implicados
+
+- [`vercel.json`](vercel.json) — secção `routes` (pós-`c40b204`)
+- Painel Vercel — Root Directory, Node ≥ 20.19, preset/output (revisão manual)
+
+**Não implicados neste incidente:** Galaxy, i18n, CVs, contacto, `client/dist` no Git (continua ignorado).
+
+#### Correção mínima (§12.1 — hipótese obsoleta)
+
+A hipótese **`/client/dist/`** como `dest` foi **refutada** na §12.2 (código do builder + simulação). Manter esta nota apenas como histórico; usar a correção de **§12.2**.
+
+#### Testes obrigatórios após próximo deploy
+
+1. `GET /` → 200 + HTML da SPA  
+2. `GET /robots.txt`, `/sitemap.xml`  
+3. `GET` um ficheiro em `/assets/*` referenciado no `index.html`  
+4. `GET /api` → "API is working!"  
+5. `POST /api/sendEmailContacto` (Mailjet no painel)
+
+#### Estado do relatório
+
+| Item | Estado |
+|------|--------|
+| Diagnóstico | **Concluído** |
+| Correção de rotas no repo | **Pendente** (aguardar autorização) |
+| Produção funcional | **Não** — confirmado 404 em `c40b204` |
+
+### 12.2 Inspeção do output — `@vercel/static-build` (evidência)
+
+**Data:** 13 Nov 2026
+
+#### Métodos usados
+
+| Método | Resultado |
+|--------|-----------|
+| `vercel pull --yes --environment=production` | **OK** — `.vercel/project.json`, env de produção |
+| `vercel build --yes --environment=production` | **Falhou** no Windows — `EPERM` ao criar symlinks na cache de builders (`.vercel/output/` **não gerado**) |
+| Código `@vercel/static-build@27.0.0` | `distPath = workPath/client/dist`; `mountpoint = dirname(entrypoint)` → **`client`** |
+| Código `@vercel/build-utils` (`glob`) | `finalPath = join(mountpoint, relativePath)` com `cwd = distPath` |
+| Simulação local (`client/dist` pós-`vite build`) | Chaves internas = prefixo **`client/`**, não `client/dist/` nem raiz |
+
+#### Project Settings (`.vercel/project.json` via pull)
+
+| Campo | Valor |
+|-------|--------|
+| `rootDirectory` | `null` (raiz do repo) |
+| `framework` | `null` |
+| `buildCommand` / `outputDirectory` | `null` — CLI avisa: **`builds` em `vercel.json` prevalece** |
+| `nodeVersion` | `24.x` |
+
+#### Estrutura lógica do output (legado `builds`, comprovada)
+
+O builder **não** expõe ficheiros em `/index.html` na raiz do bundle nem em `/client/dist/index.html`. Após `vite build`, publica o **conteúdo** de `client/dist/` com chaves:
+
+```
+client/index.html
+client/robots.txt
+client/sitemap.xml
+client/icon.png
+client/assets/main-DZOYxfnk.js
+client/assets/main-BaGPX_cJ.css
+… (20 ficheiros no build actual)
+```
+
+Referência: `collectStaticFiles` em `@vercel/static-build` — `glob("**", { cwd: distPath }, mountpoint)` com `mountpoint = "client"`.
+
+**Não inspeccionado:** `.vercel/output/config.json` (build local bloqueado). Comportamento em Build Output API pode diferir; o deployment `c40b204` usa **`builds` + `routes` legados**.
+
+#### URL pública → `dest` interno (deve coincidir)
+
+| URL pública | Ficheiro interno (static-build) | `dest` actual `c40b204` | Estado |
+|-------------|--------------------------------|-------------------------|--------|
+| `/` | `client/index.html` | `/index.html` | **Incompatível** |
+| `/robots.txt` | `client/robots.txt` | `/robots.txt` | **Incompatível** |
+| `/sitemap.xml` | `client/sitemap.xml` | `/sitemap.xml` | **Incompatível** |
+| `/assets/*` | `client/assets/*` | `/$1` → `/assets/*` | **Incompatível** |
+| `/icon.png` | `client/icon.png` | fallback → `/index.html` | **Incompatível** |
+| `/api/*` | função `server/app.js` | `/server/app.js` | **Deveria coincidir**; produto devolve 404 — rever logs do build Node no dashboard |
+
+#### Correção mínima recomendada (fundamentada)
+
+**Manter** `builds` (`static-build` + `node`). **Alterar só `routes`:**
+
+```json
+{
+  "routes": [
+    { "src": "^/api/(.*)", "dest": "/server/app.js" },
+    { "src": "^/robots\\.txt$", "dest": "/client/robots.txt" },
+    { "src": "^/sitemap\\.xml$", "dest": "/client/sitemap.xml" },
+    { "src": "^/(assets/.*)", "dest": "/client/$1" },
+    { "src": ".*", "dest": "/client/index.html" }
+  ]
+}
+```
+
+Opcional: rota explícita `^/icon\\.png$` → `/client/icon.png`.
+
+**Nota:** O esquema **`/client/dist/...`** era correcto para `@vercel/static` com `src: client/dist/**/*`, mas **não** para `@vercel/static-build`.
+
+#### Testes pós-correcção
+
+1. Deploy preview → `GET /`, `/assets/*.js` do `index.html`, `/robots.txt`.  
+2. `GET /api` → "API is working!" (se ainda 404, inspeccionar build `@vercel/node` nos logs).  
+3. (Opcional) Repetir `vercel build` em Linux/WSL ou CI para validar `.vercel/output/`.
+
+#### Estado
+
+| Item | Estado |
+|------|--------|
+| Hipótese `/client/dist/` | **Refutada** para `static-build` |
+| Chaves internas | **`client/`** — comprovado (código + simulação) |
+| `.vercel/output` local | **Não disponível** (EPERM Windows) |
+| Correção no repo | **Aplicada** na branch `fix/vercel-static-routing-404` — ver §12.3 |
+
+### 12.3 Correção do routing estático — branch `fix/vercel-static-routing-404`
+
+**Data:** 13 Nov 2026  
+**Branch:** `fix/vercel-static-routing-404`
+
+#### Causa
+
+`@vercel/static-build` regista ficheiros com prefixo interno **`client/`** (§12.2). O deployment `c40b204` encaminhava para `/index.html`, `/robots.txt`, `/$1` na raiz — **incompatível** → `404 NOT_FOUND`.
+
+#### Alterações em [`vercel.json`](vercel.json)
+
+**Inalterado:** bloco `builds` (`@vercel/static-build` + `@vercel/node`).
+
+**Alterado:** apenas `routes` → destinos `/client/...`:
+
+| `src` | `dest` |
+|-------|--------|
+| `^/api/(.*)` | `/server/app.js` |
+| `^/robots\.txt$` | `/client/robots.txt` |
+| `^/sitemap\.xml$` | `/client/sitemap.xml` |
+| `^/(assets/.*)` | `/client/$1` |
+| `^/icon\.png$` | `/client/icon.png` |
+| `.*` | `/client/index.html` |
+
+Sem prefixo `/client/dist/`.
+
+#### Backend
+
+Inspeção de [`server/app.js`](server/app.js) — **sem alterações:**
+
+- `POST /api/sendEmailContacto`, `GET /api` (diagnóstico)
+- `module.exports = app`; `app.listen` só fora de `production`
+- Mailjet via variáveis de ambiente (painel Vercel)
+
+#### Verificações locais
+
+| Verificação | Resultado |
+|-------------|-----------|
+| `cd client && npm run build` | **OK** (~40s) |
+| `dist/index.html` | OK |
+| `dist/robots.txt`, `dist/sitemap.xml` | OK |
+| `dist/icon.png` | OK |
+| `dist/assets/*` | OK |
+| `vercel build --yes --environment=production` | **Falhou** — `EPERM` symlinks (Windows); `.vercel/output/` não gerado |
+
+#### Pendências
+
+- **Deploy preview** + testes HTTP reais: `/`, `/assets/*`, `/robots.txt`, `/sitemap.xml`, `/icon.png`, `GET /api`, `POST /api/sendEmailContacto`
+- **Produção** não validada até merge + deploy
+- Se `/api` persistir 404 após deploy: rever logs `@vercel/node` no dashboard
+
+#### Git / deploy nesta tarefa
+
+| Ação | Estado |
+|------|--------|
+| Commit | **Não** executado |
+| Push | **Não** executado |
+| Deploy produção | **Não** executado |
