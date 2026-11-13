@@ -20,19 +20,23 @@
     },
     {
       "src": "^/robots\\.txt$",
-      "dest": "/robots.txt"
+      "dest": "/client/robots.txt"
     },
     {
       "src": "^/sitemap\\.xml$",
-      "dest": "/sitemap.xml"
+      "dest": "/client/sitemap.xml"
     },
     {
       "src": "^/(assets/.*)",
-      "dest": "/$1"
+      "dest": "/client/$1"
+    },
+    {
+      "src": "^/icon\\.png$",
+      "dest": "/client/icon.png"
     },
     {
       "src": ".*",
-      "dest": "/index.html"
+      "dest": "/client/index.html"
     }
   ]
 }
