@@ -205,6 +205,9 @@
     "rights": "© 2026 — Weidson Cordeiro. All rights reserved."
   },
   "errors": {
-    "validationFallback": "Please check the form and try again."
+    "validationFallback": "Please check the form and try again.",
+    "required": "Name, email and message are required.",
+    "invalidEmail": "Please enter a valid email address.",
+    "sendFailed": "Could not send the message. Please try again."
   }
 }
