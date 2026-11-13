@@ -7,11 +7,24 @@ import { requestConfig } from "../utils/config";
 import CV_En from "../assets/doc/CV_EN_Weidson_Cordeiro.pdf";
 import CV_Pt from "../assets/doc/CV_BR_Weidson_Cordeiro.pdf";
 
-const formatErrors = (errors, t) => {
-  if (!errors) return t("contact.errorGeneric");
-  if (Array.isArray(errors)) return errors.join(" ");
-  if (typeof errors === "string") return errors;
-  return t("errors.validationFallback");
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const SERVER_ERROR_CODES = {
+  VALIDATION_REQUIRED: "errors.required",
+  INVALID_EMAIL: "errors.invalidEmail",
+  SEND_FAILED: "errors.sendFailed",
+};
+
+const resolveErrorKey = (errors) => {
+  if (!errors) return "contact.errorGeneric";
+  const first = Array.isArray(errors) ? errors[0] : errors;
+  if (typeof first === "string" && SERVER_ERROR_CODES[first]) {
+    return SERVER_ERROR_CODES[first];
+  }
+  if (typeof first === "string") {
+    return "errors.validationFallback";
+  }
+  return "errors.validationFallback";
 };
 
 const Contact = () => {
@@ -19,8 +32,8 @@ const Contact = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const [errorKey, setErrorKey] = useState(null);
+  const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const cv = useMemo(
@@ -43,8 +56,8 @@ const Contact = () => {
     event.preventDefault();
 
     setIsLoading(true);
-    setError(null);
-    setSuccess(null);
+    setErrorKey(null);
+    setSuccess(false);
 
     const formData = {
       name: name.trim(),
@@ -52,23 +65,34 @@ const Contact = () => {
       message: message.trim(),
     };
 
+    if (!formData.name || !formData.email || !formData.message) {
+      setErrorKey("errors.required");
+      setIsLoading(false);
+      return;
+    }
+    if (!EMAIL_REGEX.test(formData.email)) {
+      setErrorKey("errors.invalidEmail");
+      setIsLoading(false);
+      return;
+    }
+
     const config = requestConfig("POST", formData, null);
     try {
       const res = await fetch(`/api/sendEmailContacto`, config);
       const result = await res.json();
 
       if (!res.ok || result.errors) {
-        setError(formatErrors(result.errors, t));
+        setErrorKey(resolveErrorKey(result.errors));
         return;
       }
 
       setName("");
       setEmail("");
       setMessage("");
-      setSuccess(t("contact.success"));
+      setSuccess(true);
     } catch (err) {
       console.error("Contact form error:", err);
-      setError(t("contact.errorGeneric"));
+      setErrorKey("contact.errorGeneric");
     } finally {
       setIsLoading(false);
     }
@@ -145,14 +169,14 @@ const Contact = () => {
           </div>
 
           <div aria-live="polite" aria-atomic="true">
-            {error && (
+            {errorKey && (
               <div className="errormsg mt-1 mb-2">
-                <p>{error}</p>
+                <p>{t(errorKey)}</p>
               </div>
             )}
             {success && (
               <div className="successmsg mt-1 mb-2">
-                <p>{success}</p>
+                <p>{t("contact.success")}</p>
               </div>
             )}
           </div>

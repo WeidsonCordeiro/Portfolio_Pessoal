@@ -1,11 +1,11 @@
 const validatePayload = ({ name, email, message }) => {
   if (!name || !email || !message) {
-    return "Nome, e-mail e mensagem são obrigatórios";
+    return "VALIDATION_REQUIRED";
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    return "E-mail inválido";
+    return "INVALID_EMAIL";
   }
 
   return null;

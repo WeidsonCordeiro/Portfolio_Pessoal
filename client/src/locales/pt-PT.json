@@ -12,10 +12,10 @@
     "menuOpen": "Abrir menu de navegação",
     "main": "Navegação principal",
     "langSwitch": "Escolher idioma",
-    "home": "Home",
+    "home": "Início",
     "about": "Quem sou",
     "experience": "Experiência",
-    "skills": "Skills",
+    "skills": "Habilidades",
     "projects": "Projetos",
     "contact": "Contactos"
   },
@@ -68,7 +68,7 @@
     }
   },
   "skills": {
-    "title": "Skills",
+    "title": "Habilidades",
     "groups": {
       "frontend": "Frontend",
       "backend": "Backend e dados",
@@ -205,6 +205,9 @@
     "rights": "© 2026 — Weidson Cordeiro. Todos os direitos reservados."
   },
   "errors": {
-    "validationFallback": "Verifique o formulário e tente novamente."
+    "validationFallback": "Verifique o formulário e tente novamente.",
+    "required": "Nome, e-mail e mensagem são obrigatórios.",
+    "invalidEmail": "Introduza um endereço de e-mail válido.",
+    "sendFailed": "Não foi possível enviar a mensagem. Tente novamente."
   }
 }

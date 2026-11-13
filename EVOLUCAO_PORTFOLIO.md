@@ -6,7 +6,7 @@
 
 ## Estado actual do projeto
 
-**Actualizado:** 13 Nov 2026 (revisão final README — §17)  
+**Actualizado:** 13 Nov 2026 (i18n PT/EN — §18)  
 **Fonte:** inspecção Git local + pedidos HTTP (não substitui teste funcional completo nem confirma Mailjet).
 
 ### Repositório
@@ -14,7 +14,7 @@
 | Item | Estado |
 |------|--------|
 | Branch local | `main` (alinhada com `origin/main`) |
-| Por commitar (nesta sessão) | [`README.md`](README.md), [`EVOLUCAO_PORTFOLIO.md`](EVOLUCAO_PORTFOLIO.md) |
+| Por commitar (local) | Documentação: [`README.md`](README.md), [`EVOLUCAO_PORTFOLIO.md`](EVOLUCAO_PORTFOLIO.md). i18n/contacto (§18): [`client/src/locales/en.json`](client/src/locales/en.json), [`client/src/locales/pt-PT.json`](client/src/locales/pt-PT.json), [`client/src/components/Contact.jsx`](client/src/components/Contact.jsx), [`server/middlewares/handleValidation.js`](server/middlewares/handleValidation.js), [`server/app.js`](server/app.js) |
 | [`vercel.json`](vercel.json) | Igual a `HEAD` — rotas com destinos `/client/...` e `/server/app.js` |
 | Routing Vercel no Git | **Integrado** — `5f3395b`, merge PR #2 `56b877c` |
 
@@ -46,6 +46,12 @@
 4. Confirmar runs do CI no GitHub (sucesso/falha) — sem evidência remota nesta revisão.
 5. Lighthouse formal pós-deploy (opcional).
 6. Comparação foto perfil A vs B (opcional, `client/.perfil-compare/`).
+7. **Teste manual** i18n do formulário de contacto (PT/EN) e envio Mailjet — ver §18.
+
+### Internacionalização (resumo)
+
+- Correcções Skills/nav PT e validação do contacto alinhada ao idioma — **implementadas localmente** (§18).
+- Build `client` OK após alterações; testes no browser **pendentes**.
 
 ### Registo histórico
 
@@ -72,6 +78,7 @@ As secções **1–6** e **9** descrevem o trabalho de **12 Nov 2026**. A **§7*
 15. [Documentação — consolidação final](#15-documentação--consolidação-final)
 16. [Documentação — consistência EVOLUCAO (§10–12)](#16-documentação--consistência-evolucao-1012)
 17. [Documentação — revisão final README e validação](#17-documentação--revisão-final-readme-e-validação)
+18. [Internacionalização — auditoria e correcções PT/EN](#18-internacionalização--auditoria-e-correcções-pten)
 
 [Estado actual do projeto](#estado-actual-do-projeto) · [§10.7 Galaxy diagnóstico](#107-diagnóstico-galaxy--causa-raiz-e-correcção-definitiva) · [§10.8 Restauro Galaxy](#108-restauro-galaxy-original-referência-vercel--9e796f1) · [§10.9 Estado válido Galaxy](#109-estado-válido-e-pendências-pós-restauro) · [§12.1](#121-diagnóstico-404-em-produção-commit-c40b204) · [§12.2](#122-inspeção-do-output--vercelstatic-build-evidência) · [§12.3](#123-correção-do-routing-estático--branch-fixvercel-static-routing-404)
 
@@ -1190,4 +1197,67 @@ Conforme [Estado actual do projeto](#estado-actual-do-projeto): SchedulerPro URL
 | Commit | **Não** executado |
 | Push | **Não** executado |
 | Merge | **Não** executado |
+| Deploy | **Não** executado |
+
+---
+
+## 18. Internacionalização — auditoria e correcções PT/EN
+
+**Data:** 13 Nov 2026  
+**Motivo:** em PT, o título/nav **Skills** permanecia em inglês; mensagens de validação do contacto não seguiam o idioma (textos fixos no servidor).
+
+### Objectivo da fase
+
+1. Auditar i18n (Skills, contacto, arquitectura `i18next`).
+2. Corrigir inconsistências **sem** segundo sistema de tradução — extensão de locales + códigos de erro API mapeados no cliente.
+
+### Problemas identificados (auditoria)
+
+| ID | Prioridade | Problema | Causa |
+|----|------------|----------|--------|
+| I1–I2 | Alta | `skills.title` / `nav.skills` em PT = «Skills» | Valores em [`client/src/locales/pt-PT.json`](client/src/locales/pt-PT.json) copiados do EN |
+| I3 | Crítica | Validação API em português com UI em EN | [`server/middlewares/handleValidation.js`](server/middlewares/handleValidation.js) + pass-through em [`Contact.jsx`](client/src/components/Contact.jsx) |
+| I4 | Alta | Erro 500 Mailjet em português | String fixa em [`server/app.js`](server/app.js) |
+| I5–I7 | Média | Sem validação cliente i18n; erro em `useState` sem chave; chaves `errors.*` ausentes | Desenho do formulário (`noValidate`) |
+| I8 | Baixa | `nav.home` = «Home» em PT | Locale PT |
+
+### Ficheiros alterados
+
+| Ficheiro | Alteração |
+|----------|-----------|
+| [`client/src/locales/pt-PT.json`](client/src/locales/pt-PT.json) | `nav.skills`, `skills.title` → **Habilidades**; `nav.home` → **Início**; `errors.required`, `errors.invalidEmail`, `errors.sendFailed` |
+| [`client/src/locales/en.json`](client/src/locales/en.json) | Mesmas chaves `errors.*` em inglês |
+| [`client/src/components/Contact.jsx`](client/src/components/Contact.jsx) | Validação antes do `fetch`; estado `errorKey` + `t()` (idioma actualiza sem recarregar); mapa `VALIDATION_REQUIRED` / `INVALID_EMAIL` / `SEND_FAILED` |
+| [`server/middlewares/handleValidation.js`](server/middlewares/handleValidation.js) | Devolve códigos em vez de frases PT |
+| [`server/app.js`](server/app.js) | Falha Mailjet → `SEND_FAILED` |
+
+**Não alterados:** `GalaxyBackground`, estrutura `i18n/index.js`, restantes secções.
+
+### Comportamento após correcção
+
+| Idioma | Skills (H2 + nav) | Contacto (validação / erro API) |
+|--------|-------------------|----------------------------------|
+| PT | Habilidades | `errors.required`, `errors.invalidEmail`, `errors.sendFailed` em PT |
+| EN | Skills | Equivalentes em EN |
+
+### Validações executadas
+
+| Verificação | Resultado |
+|-------------|-----------|
+| `npm run build` (`client`) | **OK** (~24s) |
+| Teste manual browser (PT/EN, submit vazio, email inválido, troca de idioma com erro) | **Pendente** |
+| `POST /api/sendEmailContacto` real (Mailjet) | **Não testado** nesta tarefa |
+
+### Pendências
+
+- Checklist manual §5 (formulário + Skills) em `npm run dev` com backend opcional.
+- Middleware global de erros (`err.message`) pode ainda expor texto técnico — fora do fluxo normal de validação.
+- Melhorias opcionais: anglicismos PT (`Frontend`), `aria-describedby` por campo.
+
+### Estado Git (entrega §18)
+
+| Ação | Estado |
+|------|--------|
+| Commit | **Não** executado |
+| Push | **Não** executado |
 | Deploy | **Não** executado |

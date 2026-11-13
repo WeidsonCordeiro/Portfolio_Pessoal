@@ -162,7 +162,7 @@ app.post("/api/sendEmailContacto", async (req, res) => {
 
     res.status(500).json({
       success: false,
-      errors: ["Falha ao enviar mensagem"],
+      errors: ["SEND_FAILED"],
       details: [errors.message],
     });
   }
