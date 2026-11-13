@@ -2,8 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "client/dist/**/*",
-      "use": "@vercel/static"
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     },
     {
       "src": "server/app.js",
@@ -17,19 +20,19 @@
     },
     {
       "src": "^/robots\\.txt$",
-      "dest": "/client/dist/robots.txt"
+      "dest": "/robots.txt"
     },
     {
       "src": "^/sitemap\\.xml$",
-      "dest": "/client/dist/sitemap.xml"
+      "dest": "/sitemap.xml"
     },
     {
       "src": "^/(assets/.*)",
-      "dest": "/client/dist/$1"
+      "dest": "/$1"
     },
     {
       "src": ".*",
-      "dest": "/client/dist/index.html"
+      "dest": "/index.html"
     }
   ]
 }

@@ -448,3 +448,116 @@ As secções **10.7** e **10.8** mantêm o histórico das tentativas de correcç
 #### Pendência GitHub
 
 O workflow **ainda não foi executado no GitHub** — depende de **commit + push** que inclua `.github/workflows/ci.yml`. Após o push, confirmar a primeira run em *Actions* do repositório.
+
+---
+
+## 12. Deploy Vercel — build automático do frontend
+
+**Data:** 13 Nov 2026  
+**Site:** https://portifolio-green-seven-45.vercel.app/
+
+### Problema identificado
+
+- O [`vercel.json`](vercel.json) anterior usava `@vercel/static` com `src: "client/dist/**/*"`.
+- A pasta `client/dist` **não está no Git** (correto: [`client/.gitignore`](client/.gitignore) ignora `dist`).
+- No deploy via **GitHub**, o Vercel não executava `vite build`; o deployment podia ficar *Ready* mas a home devolvia **404 NOT_FOUND**.
+- Deploy manual com `vercel --prod` funcionava porque o build era feito **localmente** antes do push de artefactos.
+
+### Causa técnica
+
+`@vercel/static` apenas **publica** ficheiros já existentes; não corre o script `build` do Vite. Sem `dist` no repositório, as rotas apontavam para ficheiros inexistentes no ambiente remoto.
+
+### Solução implementada
+
+| Componente | Antes | Depois |
+|------------|-------|--------|
+| Build frontend | `@vercel/static` → `client/dist/**/*` | `@vercel/static-build` → [`client/package.json`](client/package.json), `distDir: "dist"` |
+| Build backend | `@vercel/node` → `server/app.js` | **Inalterado** |
+| Rotas estáticas | `dest` com prefixo `/client/dist/...` | `dest` na **raiz do output** (`/index.html`, `/assets/*`, etc.) |
+| Script Vercel | — | `vercel-build`: `vite build` em `client/package.json` |
+| Node | — | `engines.node`: `>=20.19.0` (requisito Vite 7) |
+
+### Ficheiros modificados
+
+- [`vercel.json`](vercel.json)
+- [`client/package.json`](client/package.json) — `vercel-build`, `engines` (sem alteração de dependências)
+
+### Configuração final do `vercel.json`
+
+```json
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    },
+    {
+      "src": "server/app.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    { "src": "^/api/(.*)", "dest": "/server/app.js" },
+    { "src": "^/robots\\.txt$", "dest": "/robots.txt" },
+    { "src": "^/sitemap\\.xml$", "dest": "/sitemap.xml" },
+    { "src": "^/(assets/.*)", "dest": "/$1" },
+    { "src": ".*", "dest": "/index.html" }
+  ]
+}
+```
+
+A rota `/api/*` fica **antes** do fallback SPA para o Express não ser capturado por `index.html`.
+
+### Estratégia de build (frontend)
+
+1. Vercel instala dependências em `client/` (a partir de `package-lock.json`).
+2. Executa `npm run vercel-build` (ou `build`) → gera `client/dist/`.
+3. Publica o conteúdo de `dist` como estáticos na raiz do deployment.
+
+### Estratégia de publicação (backend)
+
+- `server/app.js` exporta a app Express (`module.exports = app`).
+- Em produção, `app.listen` **não** corre (`NODE_ENV === "production"`); o Vercel invoca a função serverless.
+- Variáveis `MAILJET_*` devem permanecer no **painel Vercel** (não versionadas). **Não** foram alteradas nesta tarefa.
+
+### API e formulário de contacto
+
+- Em produção, [`Contact.jsx`](client/src/components/Contact.jsx) chama `fetch('/api/sendEmailContacto')` (mesma origem).
+- O proxy `localhost:8800` do Vite aplica-se **só em dev**.
+- Rota Express: `POST /api/sendEmailContacto` em [`server/app.js`](server/app.js).
+
+### Testes executados (local)
+
+| Teste | Resultado |
+|-------|-----------|
+| `cd client && npm run build` | **OK** (~2m 21s) |
+| `client/dist/index.html` | **Presente** |
+| `client/dist/assets/*` | **Presente** |
+| `client/dist/robots.txt`, `sitemap.xml` | **Presentes** (copiados de `client/public/`) |
+| `client/.gitignore` → `dist` | **Ignorado** |
+| `cd server && npm ci` | **OK** |
+| Testes automatizados | **Nenhum** (não aplicável) |
+| `vercel build` (CLI 65) | **Não concluído** — `project_settings_required` (sem `.vercel`/`vercel pull`; executar `vercel pull --yes` ou `vercel build --yes` na máquina com projeto ligado) |
+
+### Pendências para validação em produção
+
+- **Commit + push** de `vercel.json` e `client/package.json` na `main`.
+- Aguardar deploy automático Vercel (ou `vercel --prod` após `vercel pull --yes`).
+- Confirmar manualmente: `/` (200 + SPA), `/robots.txt`, `/sitemap.xml`, `/assets/...`, `POST /api/sendEmailContacto` (com env Mailjet no painel).
+- Painel Vercel: **Root Directory** = raiz do repo (não `client` isolado, com este `vercel.json`).
+
+### Comandos sugeridos para publicar
+
+```bash
+cd client && npm run build   # validação opcional local
+git add vercel.json client/package.json
+git commit -m "fix(vercel): build frontend via static-build on deploy"
+git push origin main
+# ou, com CLI já ligada ao projeto:
+vercel pull --yes --environment=production
+vercel --prod
+```
+
+**Nota:** Não afirmar produção corrigida até existir deploy real e verificação do site.
