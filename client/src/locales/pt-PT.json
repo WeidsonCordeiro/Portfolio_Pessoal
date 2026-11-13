@@ -1,0 +1,210 @@
+{
+  "seo": {
+    "title": "Weidson Cordeiro | Desenvolvedor Full Stack — React e Node.js",
+    "description": "Portfólio de Weidson Cordeiro, desenvolvedor Full Stack com foco em React, Node.js, arquitectura SaaS, APIs e testes automatizados.",
+    "ogTitle": "Weidson Cordeiro | Desenvolvedor Full Stack",
+    "jobTitle": "Desenvolvedor Full Stack",
+    "knowsAbout": ["React", "Node.js", "TypeScript", "APIs REST", "SaaS", "MongoDB"]
+  },
+  "nav": {
+    "skip": "Saltar para o conteúdo",
+    "brand": "Weidson Cordeiro",
+    "menuOpen": "Abrir menu de navegação",
+    "main": "Navegação principal",
+    "langSwitch": "Escolher idioma",
+    "home": "Home",
+    "about": "Quem sou",
+    "experience": "Experiência",
+    "skills": "Skills",
+    "projects": "Projetos",
+    "contact": "Contactos"
+  },
+  "hero": {
+    "eyebrow": "Portfólio profissional",
+    "name": "Weidson Cordeiro",
+    "tagline": "Transformar ideias em produtos digitais",
+    "role": "Desenvolvedor Full Stack · React e Node.js",
+    "focus": "Frontend, APIs, SaaS multi-tenant e entrega com qualidade e testes.",
+    "ctaProjects": "Ver projetos",
+    "ctaContact": "Falar comigo"
+  },
+  "about": {
+    "title": "Quem sou",
+    "bio": "Sou desenvolvedor Full Stack com forte orientação para o frontend e base sólida no backend. Construo produtos de ponta a ponta — interfaces acessíveis, gestão de estado, APIs REST seguras, modelos de dados e integrações — com atenção à performance, testes e manutenção."
+  },
+  "experience": {
+    "title": "Experiência",
+    "items": {
+      "saas-schedulerpro": {
+        "period": "Projeto pessoal · SaaS",
+        "title": "SchedulerPro — plataforma multi-tenant de agendamentos",
+        "description": "Arquitectura SaaS com isolamento por empresa (companyId), autenticação JWT, fluxos por permissões, dashboard, calendário e ciclo de vida de agendamentos. Cobertura com Vitest no cliente e no servidor.",
+        "highlights": [
+          "Isolamento multi-tenant por empresa",
+          "Autenticação, empresas e permissões",
+          "Dashboard, calendário e agendamentos",
+          "Mais de 200 testes automatizados no repositório do produto"
+        ]
+      },
+      "fullstack-projects": {
+        "period": "Projetos pessoais · portfólio",
+        "title": "Aplicações full stack",
+        "description": "Apps em React e Node.js com JWT, Redux/Context API, uploads Cloudinary, MongoDB e tempo real — com demos publicadas.",
+        "highlights": [
+          "ReactGram e Social Media",
+          "Mini Blog com Firebase",
+          "APIs REST e validação no servidor"
+        ]
+      },
+      "client-sites": {
+        "period": "Projetos para clientes",
+        "title": "Websites institucionais",
+        "description": "Sites de captação de leads com formulários, integração Mailjet e UI responsiva optimizada.",
+        "highlights": [
+          "Agency Travel Fly",
+          "Rocharte Investimentos Imobiliários"
+        ]
+      }
+    }
+  },
+  "skills": {
+    "title": "Skills",
+    "groups": {
+      "frontend": "Frontend",
+      "backend": "Backend e dados",
+      "quality": "Qualidade e ferramentas"
+    }
+  },
+  "projects": {
+    "title": "Projetos",
+    "filterAll": "Todos",
+    "filterFeatured": "Destaques",
+    "badgeFeatured": "Destaque",
+    "viewDetails": "Ver detalhes",
+    "modalTech": "Tecnologias",
+    "modalFeatures": "Funcionalidades",
+    "github": "GitHub",
+    "demo": "Demo ao vivo",
+    "demoSoon": "Demo em breve",
+    "githubSoon": "Repositório em breve",
+    "closeModal": "Fechar detalhes do projeto",
+    "schedulerSpotlight": {
+      "title": "SchedulerPro",
+      "subtitle": "SaaS de referência · agendamentos multi-tenant",
+      "description": "Plataforma multi-tenant de agendamentos para empresas. Stack verificada: React 19, TypeScript, Vite, Redux Toolkit, Node.js, Express 5, MongoDB, Redis, JWT, Vitest.",
+      "architectureLabel": "Arquitectura",
+      "architecture": "Cliente (React) → API REST (Express) → MongoDB com âmbito por companyId. Autenticação, empresas, dashboard, calendário e agendamentos.",
+      "capabilities": [
+        "Autenticação e acesso por papéis",
+        "Isolamento multi-tenant por empresa",
+        "Gestão do ciclo de vida da empresa",
+        "Dashboard operacional",
+        "Calendário (semana / dia / lista)",
+        "Agendamentos e fluxo de estados"
+      ]
+    },
+    "items": {
+      "schedulerpro": {
+        "title": "SchedulerPro",
+        "shortDescription": "SaaS multi-tenant para agendamentos, calendário e dashboard.",
+        "description": "SchedulerPro é uma plataforma de agendamentos pensada para várias empresas na mesma infraestrutura. Cada tenant é delimitado por companyId nos serviços. Inclui autenticação, gestão de empresas, métricas no dashboard, vistas de calendário e fluxos completos de agendamento, com testes automatizados (Vitest).",
+        "features": [
+          "Autenticação JWT e rotas com permissões",
+          "Isolamento multi-tenant por companyId",
+          "Ciclo de vida e definições da empresa",
+          "Dashboard e pontos de relatório",
+          "Calendário com várias vistas",
+          "CRUD de agendamentos e estados",
+          "Testes automatizados (Vitest / Supertest no repo do produto)"
+        ]
+      },
+      "agency-travel": {
+        "title": "Agency Travel Fly",
+        "shortDescription": "Website institucional para agência de viagens.",
+        "description": "Site para pedidos de contacto e orçamentos de viagens, com fluxo simples de cotação.",
+        "features": ["Landing page", "Layout responsivo", "SEO básico"]
+      },
+      "rocharte": {
+        "title": "Rocharte Investimentos Imobiliários",
+        "shortDescription": "Site institucional com geração de leads e e-mail.",
+        "description": "Captação de leads com integração Mailjet para newsletters e notificações.",
+        "features": [
+          "Integração Mailjet",
+          "Captação e gestão de leads",
+          "Notificações por e-mail",
+          "Formulário de contacto avançado",
+          "Design responsivo"
+        ]
+      },
+      "movie-list": {
+        "title": "Lista de Filmes",
+        "shortDescription": "Pesquisa de filmes com API TMDb.",
+        "description": "SPA que consome a TMDb para pesquisar, listar e ver detalhes.",
+        "features": [
+          "Integração TMDb",
+          "Pesquisa em tempo real",
+          "Páginas de detalhe",
+          "Navegação SPA em React"
+        ]
+      },
+      "mini-blog": {
+        "title": "Mini Blog",
+        "shortDescription": "Blog com autenticação Firebase e CRUD.",
+        "description": "Blog full stack com Firebase Auth e Firestore.",
+        "features": [
+          "Autenticação Firebase",
+          "CRUD de posts com imagens",
+          "Dashboard do utilizador",
+          "Rotas protegidas",
+          "Context API"
+        ]
+      },
+      "reactgram": {
+        "title": "ReactGram",
+        "shortDescription": "Rede social inspirada no Instagram.",
+        "description": "Produto social com JWT, MongoDB, Cloudinary e Redux Toolkit.",
+        "features": [
+          "Autenticação JWT",
+          "Rotas protegidas",
+          "Posts, likes e comentários",
+          "Feed com Redux Toolkit",
+          "Persistência MongoDB"
+        ]
+      },
+      "social-media": {
+        "title": "Social Media",
+        "shortDescription": "Rede social com Socket.io em tempo real.",
+        "description": "App social com feed em tempo real e uploads multimédia.",
+        "features": [
+          "Autenticação JWT",
+          "Feed em tempo real (Socket.io)",
+          "Comentários com permissões",
+          "Uploads de perfil e capa",
+          "Persistência MongoDB"
+        ]
+      }
+    }
+  },
+  "contact": {
+    "title": "Contactos",
+    "name": "Nome",
+    "email": "E-mail",
+    "message": "Mensagem",
+    "submit": "Enviar mensagem",
+    "submitting": "A enviar…",
+    "success": "Mensagem enviada com sucesso!",
+    "errorGeneric": "Não foi possível enviar a mensagem. Tente novamente.",
+    "githubAria": "Perfil no GitHub",
+    "linkedinAria": "Perfil no LinkedIn",
+    "emailAria": "Enviar e-mail",
+    "cvAriaEn": "Descarregar CV em inglês (PDF)",
+    "cvAriaPt": "Descarregar CV em português (PDF)"
+  },
+  "footer": {
+    "thanks": "Obrigado por visitar o meu portfólio. Estou disponível para contacto.",
+    "rights": "© 2026 — Weidson Cordeiro. Todos os direitos reservados."
+  },
+  "errors": {
+    "validationFallback": "Verifique o formulário e tente novamente."
+  }
+}

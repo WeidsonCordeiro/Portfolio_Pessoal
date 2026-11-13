@@ -1,7 +1,4 @@
-//Hooks
 import { useRef, Suspense } from "react";
-
-//Animation
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial, Preload } from "@react-three/drei";
 import * as random from "maath/random/dist/maath-random.esm";
@@ -30,7 +27,7 @@ const Stars = ({
           transparent
           color={color}
           size={size}
-          sizeAttenuation={true}
+          sizeAttenuation
           depthWrite={false}
         />
       </Points>
@@ -43,27 +40,13 @@ const GalaxyBackground = () => {
     <div
       className="position-fixed top-0 start-0 w-100 h-100"
       style={{ zIndex: -1 }}
+      aria-hidden="true"
     >
       <Canvas camera={{ position: [0, 0, 1] }}>
         <Suspense fallback={null}>
-          <Stars
-            count={2000}
-            size={0.0015}
-            color="#ffffff"
-            rotationSpeed={0.02}
-          />
-          <Stars
-            count={2000}
-            size={0.0025}
-            color="#f272c8"
-            rotationSpeed={0.05}
-          />
-          <Stars
-            count={1000}
-            size={0.003}
-            color="#add8e6"
-            rotationSpeed={0.1}
-          />
+          <Stars count={2000} size={0.0015} color="#ffffff" rotationSpeed={0.02} />
+          <Stars count={2000} size={0.0025} color="#f272c8" rotationSpeed={0.05} />
+          <Stars count={1000} size={0.003} color="#add8e6" rotationSpeed={0.1} />
         </Suspense>
         <Preload all />
       </Canvas>

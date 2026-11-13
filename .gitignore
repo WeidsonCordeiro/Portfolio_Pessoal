@@ -1,1 +1,4 @@
 .vercel
+bash.exe.stackdump
+*.stackdump
+client/.perfil-compare/

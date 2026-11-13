@@ -16,6 +16,14 @@
       "dest": "/server/app.js"
     },
     {
+      "src": "^/robots\\.txt$",
+      "dest": "/client/dist/robots.txt"
+    },
+    {
+      "src": "^/sitemap\\.xml$",
+      "dest": "/client/dist/sitemap.xml"
+    },
+    {
       "src": "^/(assets/.*)",
       "dest": "/client/dist/$1"
     },

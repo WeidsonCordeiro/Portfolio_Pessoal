@@ -1,25 +1,37 @@
-//Animations
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
+  const { t } = useTranslation();
+
   return (
     <section
       id="home"
-      className="min-vh-100 d-flex align-items-center justify-content-center text-center px-3 pt-5"
+      className="section-block section-block-hero d-flex align-items-center justify-content-center text-center px-3 pt-5"
     >
-      <div>
-        <motion.h1
-          style={{ transition: "1s" }}
-          className="display-3 display-md-2 display-lg-1 fw-bold text-white"
-          initial={{ opacity: 0, y: 50 }}
+      <div className="hero-content">
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
         >
-          <span className="text-shimmer">
-            Weidson Cordeiro, Transformando Ideias em Realidade
-          </span>
-          <br />
-          <span className="fs-4">Full Stack Developer | React & Node.js</span>
-        </motion.h1>
+          <p className="hero-eyebrow mb-2">{t("hero.eyebrow")}</p>
+          <h1 className="display-4 fw-bold text-white mb-3">
+            <span className="text-shimmer">{t("hero.name")}</span>
+          </h1>
+          <p className="fs-4 text-white-50 mb-2">{t("hero.tagline")}</p>
+          <p className="fs-5 mb-2">{t("hero.role")}</p>
+          <p className="mb-4 hero-focus">{t("hero.focus")}</p>
+          <div className="d-flex flex-wrap gap-3 justify-content-center">
+            <a href="#projects" className="btn btn-contact-custom px-4 py-2">
+              {t("hero.ctaProjects")}
+            </a>
+            <a href="#contact" className="btn btn-hero-outline px-4 py-2">
+              {t("hero.ctaContact")}
+            </a>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

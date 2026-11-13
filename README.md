@@ -1,29 +1,43 @@
-# Portfólio Pessoal – Demonstração de Habilidades Full-Stack
+# Portfólio — Weidson Cordeiro
 
-Repositório contendo uma coleção de projetos desenvolvidos com tecnologias modernas, demonstrando proficiência em **desenvolvimento web full-stack**.
+Site pessoal full stack (React + Vite + Express) com listagem de projetos, formulário de contacto e deploy na Vercel.
 
-## 🛠️ Tecnologias e Funcionalidades:
+## Tecnologias deste repositório
 
-- Frontend: React, TypeScript, JavaScript, HTML/CSS, Bootstrap CSS
-- Backend: Node.js, APIs RESTful
-- Gerenciamento de Estado: Context API, Redux
-- Autenticação: JWT (JSON Web Tokens) com segurança
-- Sessão: Auto logout com refresh token
-- Design: Interfaces responsivas e otimizadas para múltiplos dispositivos
+- **Frontend:** React 19, Vite, Bootstrap 5, Framer Motion, React Three Fiber (fundo animado opcional)
+- **Backend:** Node.js, Express, Mailjet (envio de e-mails do formulário)
+- **Outros:** SPA com âncoras, modal de projetos, lazy loading de imagens
 
-## 📂 O que você encontrará
+## Estrutura
 
-- Aplicações full-stack com autenticação e autorização
-- Implementações de padrões de estado complexos
-- Soluções responsivas e acessíveis
-- APIs seguras com autenticação JWT
-- Gerenciamento inteligente de sessões
+- `client/` — aplicação React
+- `server/` — API de contacto
+- `AUDITORIA_PORTFOLIO.md` — relatório de auditoria e plano de melhorias
 
-## 🎯 Objetivo
+## Executar localmente
 
-Demonstrar **experiência prática** com stacks tecnológicos atuais, capacidade de construir aplicações escaláveis e seguras, e compromisso com **boas práticas de desenvolvimento web moderno**.
+```bash
+cd client && npm install && npm run dev
+```
 
----
+```bash
+cd server && npm install && npm run server
+```
 
-✨ Sinta-se à vontade para explorar os projetos, rodar localmente e contribuir!  
-📄 Licença: [MIT](./LICENSE) *(ou ajuste conforme sua preferência)*
+Configure variáveis Mailjet em `server/.env` (ver `.env_example`).
+
+## Build
+
+```bash
+cd client && npm run build
+```
+
+Opcional: `npm run optimize-images` para comprimir imagens em `src/assets/img`.
+
+## Projetos apresentados
+
+Os projetos listados no site incluem aplicações com React, Node.js, JWT, Firebase, MongoDB e Socket.io — ver `client/src/data/projects.js` e repositórios linkados em cada card.
+
+## Licença
+
+MIT (ajuste conforme necessário).
